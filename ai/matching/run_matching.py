@@ -90,7 +90,7 @@ result_df = pd.DataFrame(results)
 
 
 # Output file
-output_file = "data/veera_matching_results.csv"
+output_file = "data/member1_matching_results.csv"
 
 result_df.to_csv(
     output_file,
