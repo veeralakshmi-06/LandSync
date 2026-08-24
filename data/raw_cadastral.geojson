@@ -1,0 +1,25 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "Survey_Number": "S.No 127/3",
+        "Area_Sqm": 5058.57,
+        "Village": "THIRUVANMIYUR"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [80.258, 12.985],
+            [80.259, 12.985],
+            [80.259, 12.984],
+            [80.258, 12.984],
+            [80.258, 12.985]
+          ]
+        ]
+      }
+    }
+  ]
+}

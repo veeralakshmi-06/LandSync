@@ -1,0 +1,201 @@
+survey_no,patta_number,patta_holder,revenue_area_acres,land_type
+S.No 300/1,PATTA-1515,Vignesh,1.485,Poramboke
+S.No 300/2,PATTA-4354,Suresh,3.236,Nanjai
+S.No 300/3,PATTA-4361,Murugan,0.458,Punjai
+S.No 300/4,PATTA-1703,Suresh,0.209,Nanjai
+S.No 300/5,PATTA-3451,Vignesh,1.811,Punjai
+S.No 301/1,PATTA-2891,Karthik,1.045,Punjai
+S.No 301/2,PATTA-6417,Vignesh,0.794,Grama Natham
+S.No 301/3,PATTA-1501,Lakshmi,0.341,Punjai
+S.No 301/4,PATTA-5548,Vignesh,0.434,Punjai
+S.No 301/5,PATTA-6573,Murugan,0.47,Grama Natham
+S.No 302/1,PATTA-4966,Ramasamy,0.351,Nanjai
+S.No 302/2,PATTA-2283,Priya,0.375,Nanjai
+S.No 302/3,PATTA-3732,Lakshmi,0.988,Punjai
+S.No 302/4,PATTA-9431,Lakshmi,0.498,Poramboke
+S.No 302/5,PATTA-9641,Suresh,0.928,Punjai
+S.No 303/1,PATTA-8074,Priya,0.169,Grama Natham
+S.No 303/2,PATTA-3249,Karthik,0.47,Poramboke
+S.No 303/3,PATTA-3917,Murugan,0.346,Poramboke
+S.No 303/4,PATTA-8851,Murugan,0.05,Poramboke
+S.No 303/5,PATTA-7688,Anitha,0.054,Grama Natham
+S.No 304/1,PATTA-4865,Priya,1.211,Poramboke
+S.No 304/2,PATTA-1549,Murugan,3.8,Grama Natham
+S.No 304/3,PATTA-8354,Karthik,0.311,Poramboke
+S.No 304/4,PATTA-1666,Vignesh,0.279,Grama Natham
+S.No 304/5,PATTA-1689,Murugan,2.268,Nanjai
+S.No 305/1,PATTA-4976,Murugan,0.009,Poramboke
+S.No 305/2,PATTA-8215,Anitha,0.057,Grama Natham
+S.No 305/3,PATTA-7543,Suresh,0.068,Nanjai
+S.No 305/4,PATTA-1005,Ramasamy,0.017,Nanjai
+S.No 305/5,PATTA-2793,Karthik,0.034,Punjai
+S.No 306/1,PATTA-4061,Karthik,0.027,Punjai
+S.No 306/2,PATTA-4807,Suresh,0.145,Poramboke
+S.No 306/3,PATTA-2671,Suresh,0.054,Nanjai
+S.No 306/4,PATTA-1711,Murugan,0.018,Punjai
+S.No 306/5,PATTA-2529,Karthik,0.033,Grama Natham
+S.No 307/1,PATTA-8288,Suresh,0.062,Nanjai
+S.No 307/2,PATTA-1790,Anitha,0.109,Punjai
+S.No 307/3,PATTA-2374,Priya,0.043,Grama Natham
+S.No 307/4,PATTA-6656,Ramasamy,0.075,Nanjai
+S.No 307/5,PATTA-1989,Karthik,0.059,Grama Natham
+S.No 308/1,PATTA-4303,Karthik,0.039,Nanjai
+S.No 308/2,PATTA-2380,Anitha,0.044,Nanjai
+S.No 308/3,PATTA-7384,Lakshmi,0.171,Poramboke
+S.No 308/4,PATTA-5937,Suresh,0.052,Poramboke
+S.No 308/5,PATTA-8737,Suresh,0.079,Nanjai
+S.No 309/1,PATTA-6358,Priya,0.012,Punjai
+S.No 309/2,PATTA-7119,Karthik,0.034,Grama Natham
+S.No 309/3,PATTA-9882,Murugan,0.046,Punjai
+S.No 309/4,PATTA-1792,Murugan,0.04,Grama Natham
+S.No 309/5,PATTA-2647,Murugan,0.025,Grama Natham
+S.No 310/1,PATTA-5036,Suresh,0.046,Poramboke
+S.No 310/2,PATTA-3716,Vignesh,0.05,Poramboke
+S.No 310/3,PATTA-5846,Karthik,0.024,Grama Natham
+S.No 310/4,PATTA-5135,Anitha,0.088,Nanjai
+S.No 310/5,PATTA-5587,Murugan,0.11,Poramboke
+S.No 311/1,PATTA-4990,Murugan,0.084,Punjai
+S.No 311/2,PATTA-9764,Murugan,0.032,Grama Natham
+S.No 311/3,PATTA-8418,Karthik,0.058,Punjai
+S.No 311/4,PATTA-3504,Karthik,0.035,Nanjai
+S.No 311/5,PATTA-5031,Lakshmi,0.039,Nanjai
+S.No 312/1,PATTA-3868,Anitha,0.228,Punjai
+S.No 312/2,PATTA-1775,Lakshmi,0.236,Nanjai
+S.No 312/3,PATTA-3684,Vignesh,0.242,Punjai
+S.No 312/4,PATTA-5446,Vignesh,0.119,Poramboke
+S.No 312/5,PATTA-3460,Vignesh,0.849,Poramboke
+S.No 313/1,PATTA-2312,Karthik,1.174,Poramboke
+S.No 313/2,PATTA-4186,Murugan,2.264,Poramboke
+S.No 313/3,PATTA-3046,Suresh,0.265,Nanjai
+S.No 313/4,PATTA-9096,Lakshmi,0.098,Nanjai
+S.No 313/5,PATTA-3823,Suresh,0.06,Punjai
+S.No 314/1,PATTA-7385,Suresh,0.158,Nanjai
+S.No 314/2,PATTA-4890,Murugan,0.392,Nanjai
+S.No 314/3,PATTA-3766,Lakshmi,0.502,Grama Natham
+S.No 314/4,PATTA-8731,Anitha,0.031,Grama Natham
+S.No 314/5,PATTA-4331,Lakshmi,0.029,Nanjai
+S.No 315/1,PATTA-9211,Priya,0.031,Punjai
+S.No 315/2,PATTA-5993,Priya,0.029,Nanjai
+S.No 315/3,PATTA-1258,Lakshmi,0.029,Punjai
+S.No 315/4,PATTA-8875,Lakshmi,0.028,Punjai
+S.No 315/5,PATTA-9044,Murugan,0.028,Punjai
+S.No 316/1,PATTA-2659,Ramasamy,0.029,Grama Natham
+S.No 316/2,PATTA-7139,Ramasamy,0.028,Punjai
+S.No 316/3,PATTA-8028,Vignesh,0.031,Punjai
+S.No 316/4,PATTA-3933,Ramasamy,0.031,Poramboke
+S.No 316/5,PATTA-6677,Murugan,0.029,Poramboke
+S.No 317/1,PATTA-3147,Lakshmi,0.028,Poramboke
+S.No 317/2,PATTA-8018,Karthik,0.029,Grama Natham
+S.No 317/3,PATTA-2312,Anitha,0.029,Grama Natham
+S.No 317/4,PATTA-4625,Ramasamy,0.028,Poramboke
+S.No 317/5,PATTA-1718,Lakshmi,0.029,Punjai
+S.No 318/1,PATTA-9385,Anitha,0.031,Punjai
+S.No 318/2,PATTA-4746,Suresh,0.028,Punjai
+S.No 318/3,PATTA-2345,Vignesh,0.029,Punjai
+S.No 318/4,PATTA-9498,Lakshmi,0.029,Nanjai
+S.No 318/5,PATTA-9305,Anitha,0.026,Poramboke
+S.No 319/1,PATTA-6697,Priya,0.028,Nanjai
+S.No 319/2,PATTA-2491,Ramasamy,0.029,Punjai
+S.No 319/3,PATTA-3497,Priya,0.028,Punjai
+S.No 319/4,PATTA-9459,Ramasamy,0.031,Punjai
+S.No 319/5,PATTA-9001,Lakshmi,0.033,Punjai
+S.No 320/1,PATTA-4053,Murugan,0.031,Poramboke
+S.No 320/2,PATTA-8444,Murugan,0.026,Grama Natham
+S.No 320/3,PATTA-5049,Suresh,0.029,Nanjai
+S.No 320/4,PATTA-5958,Karthik,0.026,Nanjai
+S.No 320/5,PATTA-1796,Karthik,0.031,Grama Natham
+S.No 321/1,PATTA-2121,Vignesh,0.029,Nanjai
+S.No 321/2,PATTA-1598,Ramasamy,0.029,Grama Natham
+S.No 321/3,PATTA-9086,Anitha,0.028,Punjai
+S.No 321/4,PATTA-8489,Priya,0.028,Nanjai
+S.No 321/5,PATTA-3861,Anitha,0.028,Poramboke
+S.No 322/1,PATTA-2865,Anitha,0.029,Nanjai
+S.No 322/2,PATTA-6016,Vignesh,0.029,Punjai
+S.No 322/3,PATTA-3201,Ramasamy,0.028,Nanjai
+S.No 322/4,PATTA-4264,Murugan,0.026,Nanjai
+S.No 322/5,PATTA-3143,Lakshmi,0.029,Grama Natham
+S.No 323/1,PATTA-2469,Suresh,0.028,Poramboke
+S.No 323/2,PATTA-5197,Ramasamy,0.029,Grama Natham
+S.No 323/3,PATTA-8556,Anitha,0.026,Poramboke
+S.No 323/4,PATTA-4079,Suresh,0.029,Poramboke
+S.No 323/5,PATTA-2741,Priya,0.026,Punjai
+S.No 324/1,PATTA-7704,Ramasamy,0.029,Grama Natham
+S.No 324/2,PATTA-6015,Karthik,0.029,Nanjai
+S.No 324/3,PATTA-9595,Ramasamy,0.026,Punjai
+S.No 324/4,PATTA-5800,Ramasamy,0.044,Poramboke
+S.No 324/5,PATTA-7988,Suresh,0.026,Grama Natham
+S.No 325/1,PATTA-4980,Suresh,0.029,Punjai
+S.No 325/2,PATTA-5663,Ramasamy,0.026,Nanjai
+S.No 325/3,PATTA-7059,Lakshmi,0.028,Punjai
+S.No 325/4,PATTA-7757,Murugan,0.028,Poramboke
+S.No 325/5,PATTA-7807,Suresh,0.028,Grama Natham
+S.No 326/1,PATTA-2599,Suresh,0.026,Grama Natham
+S.No 326/2,PATTA-9553,Vignesh,0.031,Punjai
+S.No 326/3,PATTA-9603,Suresh,0.026,Punjai
+S.No 326/4,PATTA-4991,Karthik,0.263,Grama Natham
+S.No 326/5,PATTA-2624,Murugan,0.052,Grama Natham
+S.No 327/1,PATTA-1367,Priya,0.018,Grama Natham
+S.No 327/2,PATTA-8035,Suresh,0.06,Punjai
+S.No 327/3,PATTA-3187,Ramasamy,0.02,Grama Natham
+S.No 327/4,PATTA-8941,Karthik,0.021,Nanjai
+S.No 327/5,PATTA-8705,Ramasamy,0.017,Poramboke
+S.No 328/1,PATTA-4254,Anitha,0.039,Poramboke
+S.No 328/2,PATTA-7837,Murugan,0.034,Poramboke
+S.No 328/3,PATTA-1780,Lakshmi,0.044,Grama Natham
+S.No 328/4,PATTA-6131,Ramasamy,0.032,Punjai
+S.No 328/5,PATTA-9650,Karthik,0.041,Punjai
+S.No 329/1,PATTA-8405,Anitha,0.08,Punjai
+S.No 329/2,PATTA-8463,Vignesh,0.051,Grama Natham
+S.No 329/3,PATTA-4323,Lakshmi,0.055,Nanjai
+S.No 329/4,PATTA-1757,Karthik,0.025,Poramboke
+S.No 329/5,PATTA-1190,Ramasamy,0.01,Punjai
+S.No 330/1,PATTA-6207,Lakshmi,0.008,Nanjai
+S.No 330/2,PATTA-8103,Anitha,0.126,Punjai
+S.No 330/3,PATTA-9483,Lakshmi,0.063,Poramboke
+S.No 330/4,PATTA-5598,Karthik,0.045,Nanjai
+S.No 330/5,PATTA-6813,Ramasamy,0.052,Poramboke
+S.No 331/1,PATTA-9643,Priya,0.085,Nanjai
+S.No 331/2,PATTA-1199,Murugan,0.116,Nanjai
+S.No 331/3,PATTA-8815,Murugan,0.035,Punjai
+S.No 331/4,PATTA-2870,Ramasamy,0.097,Nanjai
+S.No 331/5,PATTA-7724,Priya,0.1,Poramboke
+S.No 332/1,PATTA-9785,Murugan,0.148,Nanjai
+S.No 332/2,PATTA-2860,Priya,0.064,Punjai
+S.No 332/3,PATTA-2550,Murugan,0.228,Nanjai
+S.No 332/4,PATTA-8750,Murugan,0.088,Poramboke
+S.No 332/5,PATTA-3136,Vignesh,0.088,Poramboke
+S.No 333/1,PATTA-6320,Vignesh,0.024,Punjai
+S.No 333/2,PATTA-8932,Anitha,0.015,Punjai
+S.No 333/3,PATTA-5319,Vignesh,0.051,Nanjai
+S.No 333/4,PATTA-4081,Murugan,0.008,Punjai
+S.No 333/5,PATTA-6138,Suresh,0.021,Grama Natham
+S.No 334/1,PATTA-7921,Lakshmi,0.019,Nanjai
+S.No 334/2,PATTA-7108,Karthik,0.372,Poramboke
+S.No 334/3,PATTA-9965,Vignesh,0.081,Grama Natham
+S.No 334/4,PATTA-7899,Anitha,0.15,Nanjai
+S.No 334/5,PATTA-2288,Suresh,0.281,Punjai
+S.No 335/1,PATTA-9612,Karthik,0.214,Punjai
+S.No 335/2,PATTA-3904,Ramasamy,0.066,Nanjai
+S.No 335/3,PATTA-7197,Anitha,0.128,Punjai
+S.No 335/4,PATTA-2283,Priya,0.047,Nanjai
+S.No 335/5,PATTA-2569,Ramasamy,0.127,Grama Natham
+S.No 336/1,PATTA-8370,Anitha,0.377,Grama Natham
+S.No 336/2,PATTA-6431,Lakshmi,0.247,Poramboke
+S.No 336/3,PATTA-6117,Karthik,0.067,Punjai
+S.No 336/4,PATTA-7952,Anitha,0.076,Poramboke
+S.No 336/5,PATTA-8072,Priya,0.356,Punjai
+S.No 337/1,PATTA-6788,Priya,0.221,Poramboke
+S.No 337/2,PATTA-6381,Ramasamy,0.188,Grama Natham
+S.No 337/3,PATTA-3392,Priya,0.121,Grama Natham
+S.No 337/4,PATTA-4461,Suresh,0.532,Nanjai
+S.No 337/5,PATTA-5237,Vignesh,0.31,Poramboke
+S.No 338/1,PATTA-6189,Anitha,0.384,Poramboke
+S.No 338/2,PATTA-8201,Anitha,0.331,Poramboke
+S.No 338/3,PATTA-2220,Anitha,0.15,Grama Natham
+S.No 338/4,PATTA-4252,Ramasamy,0.366,Punjai
+S.No 338/5,PATTA-8951,Lakshmi,0.354,Nanjai
+S.No 339/1,PATTA-3248,Murugan,0.456,Punjai
+S.No 339/2,PATTA-3248,Ramasamy,0.069,Poramboke
+S.No 339/3,PATTA-3025,Karthik,0.044,Poramboke
+S.No 339/4,PATTA-7234,Anitha,0.017,Poramboke
+S.No 339/5,PATTA-7744,Vignesh,0.071,Nanjai

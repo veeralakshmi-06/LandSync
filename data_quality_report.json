@@ -1,0 +1,136 @@
+{
+    "dataset_summary": {
+        "total_harmonized_parcels": 200,
+        "missing_spatial_polygons": 0,
+        "missing_revenue_records": 0,
+        "status": "PROCESSED_SUCCESSFULLY"
+    },
+    "critical_flags": [
+        {
+            "survey_number": "200/3",
+            "village": "Avinashi_Road_Zone",
+            "discrepancy_sqm": 141.17,
+            "issue_type": "AREA_MISMATCH"
+        },
+        {
+            "survey_number": "200/5",
+            "village": "Avinashi_Road_Zone",
+            "discrepancy_sqm": 514.18,
+            "issue_type": "AREA_MISMATCH"
+        },
+        {
+            "survey_number": "201/3",
+            "village": "Avinashi_Road_Zone",
+            "discrepancy_sqm": 96.39,
+            "issue_type": "AREA_MISMATCH"
+        },
+        {
+            "survey_number": "202/2",
+            "village": "Avinashi_Road_Zone",
+            "discrepancy_sqm": 100.25,
+            "issue_type": "AREA_MISMATCH"
+        },
+        {
+            "survey_number": "202/3",
+            "village": "Avinashi_Road_Zone",
+            "discrepancy_sqm": 279.54,
+            "issue_type": "AREA_MISMATCH"
+        },
+        {
+            "survey_number": "202/5",
+            "village": "Avinashi_Road_Zone",
+            "discrepancy_sqm": 264.38,
+            "issue_type": "AREA_MISMATCH"
+        },
+        {
+            "survey_number": "203/2",
+            "village": "Avinashi_Road_Zone",
+            "discrepancy_sqm": 122.51,
+            "issue_type": "AREA_MISMATCH"
+        },
+        {
+            "survey_number": "203/3",
+            "village": "Avinashi_Road_Zone",
+            "discrepancy_sqm": 96.27,
+            "issue_type": "AREA_MISMATCH"
+        },
+        {
+            "survey_number": "204/2",
+            "village": "Avinashi_Road_Zone",
+            "discrepancy_sqm": 996.43,
+            "issue_type": "AREA_MISMATCH"
+        },
+        {
+            "survey_number": "204/5",
+            "village": "Avinashi_Road_Zone",
+            "discrepancy_sqm": 644.18,
+            "issue_type": "AREA_MISMATCH"
+        },
+        {
+            "survey_number": "208/3",
+            "village": "Avinashi_Road_Zone",
+            "discrepancy_sqm": 54.06,
+            "issue_type": "AREA_MISMATCH"
+        },
+        {
+            "survey_number": "212/1",
+            "village": "Avinashi_Road_Zone",
+            "discrepancy_sqm": 71.8,
+            "issue_type": "AREA_MISMATCH"
+        },
+        {
+            "survey_number": "212/2",
+            "village": "Avinashi_Road_Zone",
+            "discrepancy_sqm": 67.39,
+            "issue_type": "AREA_MISMATCH"
+        },
+        {
+            "survey_number": "213/2",
+            "village": "Avinashi_Road_Zone",
+            "discrepancy_sqm": 698.93,
+            "issue_type": "AREA_MISMATCH"
+        },
+        {
+            "survey_number": "214/3",
+            "village": "Avinashi_Road_Zone",
+            "discrepancy_sqm": 140.75,
+            "issue_type": "AREA_MISMATCH"
+        },
+        {
+            "survey_number": "232/3",
+            "village": "Avinashi_Road_Zone",
+            "discrepancy_sqm": 66.27,
+            "issue_type": "AREA_MISMATCH"
+        },
+        {
+            "survey_number": "236/5",
+            "village": "Avinashi_Road_Zone",
+            "discrepancy_sqm": 100.63,
+            "issue_type": "AREA_MISMATCH"
+        },
+        {
+            "survey_number": "237/4",
+            "village": "Avinashi_Road_Zone",
+            "discrepancy_sqm": 149.16,
+            "issue_type": "AREA_MISMATCH"
+        },
+        {
+            "survey_number": "237/5",
+            "village": "Avinashi_Road_Zone",
+            "discrepancy_sqm": 86.69,
+            "issue_type": "AREA_MISMATCH"
+        },
+        {
+            "survey_number": "238/2",
+            "village": "Avinashi_Road_Zone",
+            "discrepancy_sqm": 103.17,
+            "issue_type": "AREA_MISMATCH"
+        },
+        {
+            "survey_number": "238/4",
+            "village": "Avinashi_Road_Zone",
+            "discrepancy_sqm": 102.1,
+            "issue_type": "AREA_MISMATCH"
+        }
+    ]
+}

@@ -1,0 +1,29 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "s_no": "127/3",
+        "extent_sqm": 5050.0,
+        "village": "Thiruvanmiyur"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[80.2580, 12.9850], [80.2592, 12.9850], [80.2592, 12.9840], [80.2580, 12.9840], [80.2580, 12.9850]]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "s_no": "128/1",
+        "extent_sqm": 3200.0,
+        "village": "Thiruvanmiyur"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[80.2593, 12.9850], [80.2605, 12.9850], [80.2605, 12.9840], [80.2593, 12.9840], [80.2593, 12.9850]]]
+      }
+    }
+  ]
+}
