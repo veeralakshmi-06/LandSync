@@ -1,0 +1,9 @@
+parcel_id,survey_number,owner,severity,conflict_type,conflict_count,change_count,official_coordinates_available,recommended_solution,required_action,status
+127/3,127/3,K. Venkatesh Reddy,MEDIUM,AREA_MISMATCH,1,1,NO,N/A,NO_ACTION_REQUIRED,PENDING_REVIEW
+45/1,45/1,"Ramesh Kumar Gowda, Suresh Babu Hegde",CRITICAL,SURVEY_NUMBER_MISMATCH,2,0,YES,Verify ownership using the authoritative land/registration document.,LEGAL_DOCUMENT_VERIFICATION_REQUIRED,PENDING_REVIEW
+89/2,89/2,Muniswamappa,CRITICAL,BOUNDARY_MISMATCH,3,0,YES,Compare the conflicting boundary with the official survey coordinates and perform manual survey verification.,MANUAL_SURVEY_VERIFICATION_REQUIRED,PENDING_REVIEW
+90/1,90/1,Anjanappa Trust,CRITICAL,PARCEL_OVERLAP,1,0,YES,Inspect boundary overlap against authoritative survey map and perform joint field verification.,MANUAL_SURVEY_VERIFICATION_REQUIRED,PENDING_REVIEW
+105,105,Shantamma & Sons,MEDIUM,NONE,0,1,NO,N/A,NO_ACTION_REQUIRED,PENDING_REVIEW
+214/A,214/A,Narayanaswamy,HIGH,MISSING_VALUE,2,1,NO,Verify boundary using official survey geometry. Official coordinates not available in current repository; manual ground survey required.,MANUAL_SURVEY_VERIFICATION_REQUIRED,PENDING_REVIEW
+310,310,Pratap Singh,LOW,NONE,0,1,NO,N/A,NO_ACTION_REQUIRED,PENDING_REVIEW
+77/4,77/4,Govindappa Gowda,LOW,NONE,0,0,NO,N/A,NO_ACTION_REQUIRED,CLEAN
