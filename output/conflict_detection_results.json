@@ -15,14 +15,14 @@
         "old_value": "1.25 acre",
         "new_value": "1.18 acre",
         "field_name": "area",
-        "description": "Area mismatch of 5.6% between RoR Revenue Register (Bhoomi) (1.25 acre) and Sub-Registrar Deed (Kaveri) (1.18 acre)",
+        "description": "Area mismatch of 5.8% between RoR Revenue Register (Bhoomi) (1.25 acre) and Sub-Registrar Deed (Kaveri) (1.18 acre)",
         "details": {
           "base_source": "RoR Revenue Register (Bhoomi)",
           "comp_source": "Sub-Registrar Deed (Kaveri)",
           "base_acres": 1.25,
           "comp_acres": 1.18,
           "difference_acres": 0.07,
-          "percentage_difference": 5.6
+          "percentage_difference": 5.76
         }
       }
     ],
@@ -89,7 +89,7 @@
     ],
     "changes": [],
     "summary": "Parcel 45/1 has a survey number mismatch (45/1 vs 45/1A) and an ownership title discrepancy (Ramesh Kumar Gowda vs Suresh Babu Hegde). Overall conflict severity: CRITICAL.",
-    "formatted_conflict_report": "\u26a0\ufe0f CRITICAL CONFLICT\n\nParcel ID: 45/1\nSurvey Number: 45/1\nOwners:\n  1. Ramesh Kumar Gowda\n  2. Suresh Babu Hegde\n\nConflict Type: Survey Number Mismatch\nSeverity: CRITICAL\n\nConflicting Coordinates:\n[[[77.742, 12.99089], [77.74291, 12.99089], [77.74291, 12.99], [77.742, 12.99], [77.742, 12.99089]]]\n\nOfficial Survey Coordinates:\n[[[77.742, 12.99089], [77.74291, 12.99089], [77.74291, 12.99], [77.742, 12.99], [77.742, 12.99089]]]\n\nCoordinate Source:\nOfficial Survey Document \u2013 Official Cadastral Survey Map & FMB Boundary Sheet [DOC-SSLR-2025-451, Survey Settlement & Land Records Dept (SSLR), Govt of Karnataka, Date: 2025-11-20]\n\nCoordinate Comparison Result:\nOfficial survey coordinates match the recorded geometry within acceptable tolerance (< 0.5m deviation).\n\nRecommended Solution:\nVerify ownership using the authoritative land/registration document.\n\nRequired Action:\nLEGAL_DOCUMENT_VERIFICATION_REQUIRED\n\nStatus:\nPENDING_REVIEW",
+    "formatted_conflict_report": "\u26a0\ufe0f CRITICAL CONFLICT\n\nParcel ID: 45/1\nSurvey Number: 45/1\nOwners:\n  1. Ramesh Kumar Gowda\n  2. Suresh Babu Hegde\n\nConflict Type: Owner Mismatch\nSeverity: CRITICAL\n\nConflicting Coordinates:\n[[[77.742, 12.99089], [77.74291, 12.99089], [77.74291, 12.99], [77.742, 12.99], [77.742, 12.99089]]]\n\nOfficial Survey Coordinates:\n[[[77.742, 12.99089], [77.74291, 12.99089], [77.74291, 12.99], [77.742, 12.99], [77.742, 12.99089]]]\n\nCoordinate Source:\nOfficial Survey Document \u2013 Official Cadastral Survey Map & FMB Boundary Sheet [DOC-SSLR-2025-451, Survey Settlement & Land Records Dept (SSLR), Govt of Karnataka, Date: 2025-11-20]\n\nCoordinate Comparison Result:\nOfficial survey coordinates match the recorded geometry within acceptable tolerance (< 0.5m deviation).\n\nRecommended Solution:\nVerify ownership using the authoritative land/registration document.\n\nRequired Action:\nLEGAL_DOCUMENT_VERIFICATION_REQUIRED\n\nStatus:\nPENDING_REVIEW",
     "metadata": {
       "village": "Kadugodi",
       "taluk": "Bengaluru East",
@@ -105,7 +105,7 @@
         "Suresh Babu Hegde"
       ],
       "severity": "CRITICAL",
-      "conflict_type": "SURVEY_NUMBER_MISMATCH",
+      "conflict_type": "OWNER_MISMATCH",
       "conflict_details": "Official survey coordinates match the recorded geometry within acceptable tolerance (< 0.5m deviation).",
       "existing_coordinates": [
         [
@@ -275,7 +275,7 @@
     ],
     "changes": [],
     "summary": "Parcel 89/2 has a cadastral boundary deviation of 8.79m, a discrepancy between GIS mapped area and textual RoR area, and a boundary overlap of 671.67 m\u00b2 with parcel 90/1. Overall conflict severity: CRITICAL.",
-    "formatted_conflict_report": "\u26a0\ufe0f CRITICAL CONFLICT\n\nParcel ID: 89/2\nSurvey Number: 89/2\nOwner: Muniswamappa\n\nConflict Type: Boundary Mismatch\nSeverity: CRITICAL\n\nConflicting Coordinates:\n[[[77.7432, 12.99076], [77.74398, 12.99076], [77.74398, 12.99], [77.7432, 12.99], [77.7432, 12.99076]]]\n\nOfficial Survey Coordinates:\n[[[77.7432, 12.99076], [77.7439, 12.99076], [77.7439, 12.99], [77.7432, 12.99], [77.7432, 12.99076]]]\n\nCoordinate Source:\nOfficial Survey Document \u2013 Official Cadastral Map & FMB Tie-Line Sheet [DOC-SSLR-2025-8920, Survey Settlement & Land Records Dept (SSLR), Govt of Karnataka, Date: 2025-08-15]\n\nCoordinate Comparison Result:\nSignificant spatial deviation detected: Maximum boundary vertex shift of 8.68 meters and area discrepancy of 0.180 acres (729.2 m\u00b2) between the conflicting record (1.757 acres) and official survey document (1.577 acres).\n\nRecommended Solution:\nCompare the conflicting boundary with the official survey coordinates and perform manual survey verification.\n\nRequired Action:\nMANUAL_SURVEY_VERIFICATION_REQUIRED\n\nStatus:\nPENDING_REVIEW",
+    "formatted_conflict_report": "\u26a0\ufe0f CRITICAL CONFLICT\n\nParcel ID: 89/2\nSurvey Number: 89/2\nOwner: Muniswamappa\n\nConflict Type: Parcel Overlap\nSeverity: CRITICAL\n\nConflicting Coordinates:\n[[[77.7432, 12.99076], [77.74398, 12.99076], [77.74398, 12.99], [77.7432, 12.99], [77.7432, 12.99076]]]\n\nOfficial Survey Coordinates:\n[[[77.7432, 12.99076], [77.7439, 12.99076], [77.7439, 12.99], [77.7432, 12.99], [77.7432, 12.99076]]]\n\nCoordinate Source:\nOfficial Survey Document \u2013 Official Cadastral Map & FMB Tie-Line Sheet [DOC-SSLR-2025-8920, Survey Settlement & Land Records Dept (SSLR), Govt of Karnataka, Date: 2025-08-15]\n\nCoordinate Comparison Result:\nSignificant spatial deviation detected: Maximum boundary vertex shift of 8.68 meters and area discrepancy of 0.180 acres (729.2 m\u00b2) between the conflicting record (1.757 acres) and official survey document (1.577 acres).\n\nRecommended Solution:\nCompare the conflicting boundary with the official survey coordinates and perform manual survey verification.\n\nRequired Action:\nMANUAL_SURVEY_VERIFICATION_REQUIRED\n\nStatus:\nPENDING_REVIEW",
     "metadata": {
       "village": "Kadugodi",
       "taluk": "Bengaluru East",
@@ -290,7 +290,7 @@
         "Muniswamappa"
       ],
       "severity": "CRITICAL",
-      "conflict_type": "BOUNDARY_MISMATCH",
+      "conflict_type": "PARCEL_OVERLAP",
       "conflict_details": "Significant spatial deviation detected: Maximum boundary vertex shift of 8.68 meters and area discrepancy of 0.180 acres (729.2 m\u00b2) between the conflicting record (1.757 acres) and official survey document (1.577 acres).",
       "existing_coordinates": [
         [

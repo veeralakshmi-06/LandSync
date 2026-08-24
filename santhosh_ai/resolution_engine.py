@@ -84,7 +84,22 @@ class CriticalConflictResolver:
             official_coords=official_coords
         )
 
-        # 5. Generate tailored recommended solution based on conflict types
+        # 5. Determine primary conflict type by highest severity
+        critical_conflicts = [c for c in conflicts if c.severity == SeverityLevel.CRITICAL.value]
+        high_conflicts = [c for c in conflicts if c.severity == SeverityLevel.HIGH.value]
+
+        if len(critical_conflicts) > 1:
+            primary_conflict_type = "MULTIPLE_CRITICAL_CONFLICTS"
+        elif len(critical_conflicts) == 1:
+            primary_conflict_type = critical_conflicts[0].type
+        elif high_conflicts:
+            primary_conflict_type = high_conflicts[0].type
+        elif conflicts:
+            primary_conflict_type = conflicts[0].type
+        else:
+            primary_conflict_type = "CRITICAL_SPATIAL_OR_RECORD_ANOMALY"
+
+        # 6. Generate tailored recommended solution based on conflict types
         recommended_solution, required_action = self._generate_solution_and_action(
             conflicts=conflicts,
             changes=changes,
@@ -94,8 +109,6 @@ class CriticalConflictResolver:
             doc_ref_str=coord_source_str,
             spatial_diff=spatial_diff
         )
-
-        primary_conflict_type = conflicts[0].type if conflicts else "CRITICAL_SPATIAL_OR_RECORD_ANOMALY"
 
         resolution = CriticalResolution(
             parcel_id=parcel_id,

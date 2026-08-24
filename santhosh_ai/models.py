@@ -225,7 +225,7 @@ class ParcelAnalysisResult:
                     lines.append(f"  {i}. {ow}")
                 lines.append("")
 
-            primary_conflict = self.conflicts[0].type.replace("_", " ").title() if self.conflicts else res.conflict_type.replace("_", " ").title()
+            primary_conflict = res.conflict_type.replace("_", " ").title() if res.conflict_type else (self.conflicts[0].type.replace("_", " ").title() if self.conflicts else "Critical Conflict")
             lines.append(f"Conflict Type: {primary_conflict}")
             lines.append("Severity: CRITICAL\n")
 

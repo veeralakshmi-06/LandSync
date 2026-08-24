@@ -220,22 +220,54 @@ def compute_iou(coords1: PolygonCoords, coords2: PolygonCoords) -> float:
     return min(1.0, max(0.0, inter_area / union_area))
 
 
-def parse_geojson_geometry(geometry: Dict[str, Any]) -> List[PolygonCoords]:
+def parse_geojson_geometry(geometry: Any) -> List[PolygonCoords]:
     """
-    Extract coordinate rings from a GeoJSON geometry dict (Polygon or MultiPolygon).
+    Extract coordinate rings from a GeoJSON geometry, Feature dict, or raw coordinate list.
     Returns list of coordinate rings [[(x,y), ...], ...].
     """
     if not geometry:
         return []
+
+    # Handle GeoJSON Feature
+    if isinstance(geometry, dict) and geometry.get("type") == "Feature" and "geometry" in geometry:
+        geometry = geometry["geometry"]
+
+    # Handle Dict with sub-geometry key
+    if isinstance(geometry, dict) and "geometry" in geometry and isinstance(geometry["geometry"], dict):
+        geometry = geometry["geometry"]
+
+    # Handle raw coordinate list
+    if isinstance(geometry, list):
+        if not geometry:
+            return []
+        # Case: [[[x, y], ...]]
+        if isinstance(geometry[0], list) and len(geometry[0]) > 0 and isinstance(geometry[0][0], (list, tuple)):
+            if isinstance(geometry[0][0][0], (int, float)):
+                return [[(float(p[0]), float(p[1])) for p in ring] for ring in geometry if len(ring) >= 3]
+            elif isinstance(geometry[0][0], (list, tuple)) and isinstance(geometry[0][0][0], (list, tuple)):
+                # MultiPolygon list
+                rings = []
+                for poly in geometry:
+                    for ring in poly:
+                        if len(ring) >= 3:
+                            rings.append([(float(p[0]), float(p[1])) for p in ring])
+                return rings
+        # Case: [[x, y], [x, y], ...]
+        elif isinstance(geometry[0], (list, tuple)) and len(geometry[0]) >= 2 and isinstance(geometry[0][0], (int, float)):
+            return [[(float(p[0]), float(p[1])) for p in geometry]]
+
+    if not isinstance(geometry, dict):
+        return []
+
     geom_type = geometry.get("type", "")
     coords = geometry.get("coordinates", [])
-    
+
     rings = []
     if geom_type == "Polygon":
         if coords and len(coords) > 0:
-            rings.append([(float(p[0]), float(p[1])) for p in coords[0]])
+            rings.append([(float(p[0]), float(p[1])) for p in coords[0] if len(p) >= 2])
     elif geom_type == "MultiPolygon":
         for poly in coords:
             if poly and len(poly) > 0:
-                rings.append([(float(p[0]), float(p[1])) for p in poly[0]])
+                rings.append([(float(p[0]), float(p[1])) for p in poly[0] if len(p) >= 2])
     return rings
