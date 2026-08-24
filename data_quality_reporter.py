@@ -1,52 +1,54 @@
-import pandas as pd
 import geopandas as gpd
-from sqlalchemy import create_engine
+import pandas as pd
 import json
+from sqlalchemy import create_engine
 
+# Database Connection (Replace YOUR_PASSWORD with your actual password)
 DB_URL = "postgresql://postgres:echo@localhost:5432/landsync_db"
 engine = create_engine(DB_URL)
 
 def generate_quality_and_conflict_summary():
-    print("📊 Generating Data Quality & Ingestion Summary Report...")
-
-    # PostGIS View-லிருந்து harmonized data-வை எடுத்தல்
-    query = "SELECT * FROM unified_land_records;"
-    gdf = gpd.read_postgis(query, engine, geom_col="geometry")
-
-    total_records = len(gdf)
-    missing_geometry = int(gdf["geometry"].isna().sum())
-    missing_owner = int(gdf["registered_owner"].isna().sum())
+    print("📊 Generating 4-Department Data Quality & Conflict Summary Report...")
     
-    # பரப்பளவில் 5%க்கு மேல் முரண்பாடு உள்ள நிலங்களைக் கண்டறிதல்
-    area_mismatches = gdf[gdf["area_discrepancy_sqm"] > 50.0]
-
+    # Query updated master 4-department view
+    query = "SELECT * FROM master_harmonized_land_records;"
+    gdf = gpd.read_postgis(query, engine, geom_col="geometry")
+    
+    total_records = len(gdf)
+    missing_patta = int(gdf['patta_number'].isna().sum())
+    missing_zoning = int(gdf['zoning_classification'].isna().sum())
+    mortgaged_count = int((gdf['encumbrance_status'] == 'MORTGAGED').sum())
+    unapproved_zones = int((gdf['master_plan_approval'] == 'UNAPPROVED').sum())
+    
+    # Detect Area Discrepancies > 30 sqm
+    discrepancy_cases = gdf[gdf['area_discrepancy_sqm'] > 30.0]
+    conflict_count = len(discrepancy_cases)
+    
     report = {
         "dataset_summary": {
-            "total_harmonized_parcels": total_records,
-            "missing_spatial_polygons": missing_geometry,
-            "missing_revenue_records": missing_owner,
-            "status": "PROCESSED_SUCCESSFULLY"
+            "total_parcels_processed": total_records,
+            "region": "Avinashi Road Zone, Coimbatore (5 KM Radius)",
+            "departments_integrated": ["Survey_Cadastral", "Revenue_Patta", "Registration_SRO", "Municipal_DTCP"]
         },
-        "critical_flags": [
-            {
-                "survey_number": row["survey_number"],
-                "village": row["village_name"],
-                "discrepancy_sqm": round(float(row["area_discrepancy_sqm"]), 2),
-                "issue_type": "AREA_MISMATCH" if row["area_discrepancy_sqm"] > 50 else "GEOMETRY_MISSING" if pd.isna(row["geometry"]) else "UNREGISTERED_PARCEL"
-            }
-            for _, row in area_mismatches.iterrows()
-        ]
+        "critical_anomalies_detected": {
+            "area_mismatch_conflicts": conflict_count,
+            "missing_patta_records": missing_patta,
+            "unapproved_or_waterbody_zones": unapproved_zones,
+            "encumbered_mortgaged_properties": mortgaged_count
+        },
+        "sample_conflicted_parcels": discrepancy_cases[[
+            'survey_number', 'patta_holder', 'gis_area_sqm', 'revenue_area_sqm', 'area_discrepancy_sqm', 'zoning_classification'
+        ]].head(10).to_dict(orient='records')
     }
-
-    # Backend / AI டீமுக்காக JSON ஃபைலாக சேமித்தல்
+    
     with open("data_quality_report.json", "w") as f:
         json.dump(report, f, indent=4)
-
-    print("\n--- Ingestion Quality Report ---")
-    print(f"Total Parcels Analyzed: {total_records}")
-    print(f"Missing Geometries Flagged: {missing_geometry}")
-    print(f"Area Discrepancies Detected: {len(area_mismatches)}")
-    print("📄 Saved output to 'data_quality_report.json'")
+        
+    print(f"✅ Report saved: 'data_quality_report.json'")
+    print(f"   • Total Parcels: {total_records}")
+    print(f"   • Area Discrepancy Conflicts: {conflict_count}")
+    print(f"   • Mortgaged Parcels: {mortgaged_count}")
+    print(f"   • Unapproved / Waterbody Violations: {unapproved_zones}")
 
 if __name__ == "__main__":
     generate_quality_and_conflict_summary()
