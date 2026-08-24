@@ -1,0 +1,275 @@
+{
+  "type": "FeatureCollection",
+  "name": "LandParcels_Kadugodi_Zone",
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "urn:ogc:def:crs:OGC:1.3:CRS84"
+    }
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "parcel_id": "127/3",
+        "survey_no": "127/3",
+        "owner": "K. Venkatesh Reddy",
+        "area_acres": 1.25,
+        "village": "Kadugodi",
+        "layer_type": "cadastral",
+        "year": 2024
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [77.74100, 12.99064],
+            [77.74166, 12.99064],
+            [77.74166, 12.99000],
+            [77.74100, 12.99000],
+            [77.74100, 12.99064]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "parcel_id": "127/3",
+        "building_id": "bld_127_3_01",
+        "name": "Commercial Warehouse",
+        "area_sq_m": 240.0,
+        "layer_type": "building",
+        "year": 2026
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [77.74120, 12.99040],
+            [77.74145, 12.99040],
+            [77.74145, 12.99020],
+            [77.74120, 12.99020],
+            [77.74120, 12.99040]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "parcel_id": "45/1",
+        "survey_no": "45/1",
+        "owner": "Ramesh Kumar Gowda / Suresh Babu Hegde (DISPUTED)",
+        "area_acres": 2.40,
+        "village": "Kadugodi",
+        "layer_type": "cadastral",
+        "year": 2024
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [77.74200, 12.99089],
+            [77.74291, 12.99089],
+            [77.74291, 12.99000],
+            [77.74200, 12.99000],
+            [77.74200, 12.99089]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "parcel_id": "89/2",
+        "survey_no": "89/2",
+        "owner": "Muniswamappa",
+        "area_acres": 1.75,
+        "village": "Kadugodi",
+        "layer_type": "cadastral",
+        "year": 2024
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [77.74320, 12.99076],
+            [77.74398, 12.99076],
+            [77.74398, 12.99000],
+            [77.74320, 12.99000],
+            [77.74320, 12.99076]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "parcel_id": "90/1",
+        "survey_no": "90/1",
+        "owner": "Anjanappa Trust",
+        "area_acres": 1.50,
+        "village": "Kadugodi",
+        "layer_type": "cadastral",
+        "year": 2024
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [77.74390, 12.99070],
+            [77.74462, 12.99070],
+            [77.74462, 12.99000],
+            [77.74390, 12.99000],
+            [77.74390, 12.99070]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "parcel_id": "105",
+        "survey_no": "105",
+        "owner": "Shantamma & Sons",
+        "area_acres": 3.00,
+        "village": "Kadugodi",
+        "layer_type": "cadastral",
+        "year": 2024
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [77.74100, 12.98950],
+            [77.74202, 12.98950],
+            [77.74202, 12.98850],
+            [77.74100, 12.98850],
+            [77.74100, 12.98950]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "parcel_id": "105/1",
+        "survey_no": "105/1",
+        "owner": "Shantamma (Subdivision A)",
+        "area_acres": 1.50,
+        "village": "Kadugodi",
+        "layer_type": "split_parcel",
+        "year": 2026
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [77.74100, 12.98950],
+            [77.74151, 12.98950],
+            [77.74151, 12.98850],
+            [77.74100, 12.98850],
+            [77.74100, 12.98950]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "parcel_id": "105/2",
+        "survey_no": "105/2",
+        "owner": "Sons Trust (Subdivision B)",
+        "area_acres": 1.50,
+        "village": "Kadugodi",
+        "layer_type": "split_parcel",
+        "year": 2026
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [77.74151, 12.98950],
+            [77.74202, 12.98950],
+            [77.74202, 12.98850],
+            [77.74151, 12.98850],
+            [77.74151, 12.98950]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "parcel_id": "214/A",
+        "survey_no": "214/A",
+        "owner": "Narayanaswamy",
+        "area_acres": 0.95,
+        "village": "Kadugodi",
+        "layer_type": "cadastral",
+        "year": 2024
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [77.74230, 12.98906],
+            [77.74287, 12.98906],
+            [77.74287, 12.98850],
+            [77.74230, 12.98850],
+            [77.74230, 12.98906]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "parcel_id": "310",
+        "survey_no": "310",
+        "owner": "Pratap Singh",
+        "area_acres": 1.10,
+        "village": "Kadugodi",
+        "layer_type": "cadastral",
+        "year": 2024
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [77.74310, 12.98910],
+            [77.74372, 12.98910],
+            [77.74372, 12.98850],
+            [77.74310, 12.98850],
+            [77.74310, 12.98910]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "parcel_id": "77/4",
+        "survey_no": "77/4",
+        "owner": "Govindappa Gowda",
+        "area_acres": 2.00,
+        "village": "Kadugodi",
+        "layer_type": "cadastral",
+        "year": 2024
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [77.74100, 12.98781],
+            [77.74183, 12.98781],
+            [77.74183, 12.98700],
+            [77.74100, 12.98700],
+            [77.74100, 12.98781]
+          ]
+        ]
+      }
+    }
+  ]
+}

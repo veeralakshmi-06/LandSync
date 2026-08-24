@@ -1,0 +1,803 @@
+[
+  {
+    "parcel_id": "127/3",
+    "survey_number": "127/3",
+    "owners": [
+      "K. Venkatesh Reddy"
+    ],
+    "owner_display": "K. Venkatesh Reddy",
+    "conflict_detected": true,
+    "overall_severity": "MEDIUM",
+    "conflicts": [
+      {
+        "type": "AREA_MISMATCH",
+        "severity": "MEDIUM",
+        "old_value": "1.25 acre",
+        "new_value": "1.18 acre",
+        "field_name": "area",
+        "description": "Area mismatch of 5.6% between RoR Revenue Register (Bhoomi) (1.25 acre) and Sub-Registrar Deed (Kaveri) (1.18 acre)",
+        "details": {
+          "base_source": "RoR Revenue Register (Bhoomi)",
+          "comp_source": "Sub-Registrar Deed (Kaveri)",
+          "base_acres": 1.25,
+          "comp_acres": 1.18,
+          "difference_acres": 0.07,
+          "percentage_difference": 5.6
+        }
+      }
+    ],
+    "changes": [
+      {
+        "type": "NEW_BUILDING",
+        "from_year": 2024,
+        "to_year": 2026,
+        "severity": "MEDIUM",
+        "old_value": "Vacant Land / No Structure",
+        "new_value": "New Structure (599.7 m\u00b2)",
+        "description": "New building / construction detected on parcel between 2024 and 2026 (~599.7 m\u00b2)",
+        "details": {
+          "building_id": "bld_127_3_01",
+          "building_area_m2": 599.71
+        }
+      }
+    ],
+    "summary": "Parcel 127/3 has an area mismatch (1.25 acre vs 1.18 acre). A new building was detected between 2024 and 2026. Overall conflict severity: MEDIUM.",
+    "formatted_conflict_report": "\u26a0\ufe0f CONFLICT DETECTED\n\nParcel ID: 127/3\nSurvey Number: 127/3\n\nLand Owner: K. Venkatesh Reddy\n\nConflict Type: Area Mismatch\nRevenue Area: 1.25 acre\nSurvey Area: 1.18 acre\nSeverity: MEDIUM\n\nDetected Change: New Building (2024 \u2192 2026)\nDetails: New building / construction detected on parcel between 2024 and 2026 (~599.7 m\u00b2)",
+    "metadata": {
+      "village": "Kadugodi",
+      "taluk": "Bengaluru East",
+      "district": "Bengaluru Urban",
+      "khata_no": "KH-8832-A"
+    }
+  },
+  {
+    "parcel_id": "45/1",
+    "survey_number": "45/1",
+    "owners": [
+      "Ramesh Kumar Gowda",
+      "Suresh Babu Hegde"
+    ],
+    "owner_display": "Ramesh Kumar Gowda, Suresh Babu Hegde",
+    "conflict_detected": true,
+    "overall_severity": "CRITICAL",
+    "conflicts": [
+      {
+        "type": "SURVEY_NUMBER_MISMATCH",
+        "severity": "MEDIUM",
+        "old_value": "45/1",
+        "new_value": "45/1A",
+        "field_name": "survey_number",
+        "description": "Survey sub-division variance between RoR Revenue Register (Bhoomi) ('45/1') and Registration Encumbrance Registry ('45/1A')",
+        "details": {
+          "base_source": "RoR Revenue Register (Bhoomi)",
+          "comp_source": "Registration Encumbrance Registry"
+        }
+      },
+      {
+        "type": "OWNER_MISMATCH",
+        "severity": "CRITICAL",
+        "old_value": "Ramesh Kumar Gowda",
+        "new_value": "Suresh Babu Hegde",
+        "field_name": "owner_name",
+        "description": "Owner mismatch detected: 'Ramesh Kumar Gowda' (RoR Revenue Register (Bhoomi)) vs 'Suresh Babu Hegde' (Registration Encumbrance Registry)",
+        "details": {
+          "name_similarity": 0.51,
+          "base_source": "RoR Revenue Register (Bhoomi)",
+          "comp_source": "Registration Encumbrance Registry"
+        }
+      }
+    ],
+    "changes": [],
+    "summary": "Parcel 45/1 has a survey number mismatch (45/1 vs 45/1A) and an ownership title discrepancy (Ramesh Kumar Gowda vs Suresh Babu Hegde). Overall conflict severity: CRITICAL.",
+    "formatted_conflict_report": "\u26a0\ufe0f CRITICAL CONFLICT\n\nParcel ID: 45/1\nSurvey Number: 45/1\nOwners:\n  1. Ramesh Kumar Gowda\n  2. Suresh Babu Hegde\n\nConflict Type: Survey Number Mismatch\nSeverity: CRITICAL\n\nConflicting Coordinates:\n[[[77.742, 12.99089], [77.74291, 12.99089], [77.74291, 12.99], [77.742, 12.99], [77.742, 12.99089]]]\n\nOfficial Survey Coordinates:\n[[[77.742, 12.99089], [77.74291, 12.99089], [77.74291, 12.99], [77.742, 12.99], [77.742, 12.99089]]]\n\nCoordinate Source:\nOfficial Survey Document \u2013 Official Cadastral Survey Map & FMB Boundary Sheet [DOC-SSLR-2025-451, Survey Settlement & Land Records Dept (SSLR), Govt of Karnataka, Date: 2025-11-20]\n\nCoordinate Comparison Result:\nOfficial survey coordinates match the recorded geometry within acceptable tolerance (< 0.5m deviation).\n\nRecommended Solution:\nVerify ownership using the authoritative land/registration document.\n\nRequired Action:\nLEGAL_DOCUMENT_VERIFICATION_REQUIRED\n\nStatus:\nPENDING_REVIEW",
+    "metadata": {
+      "village": "Kadugodi",
+      "taluk": "Bengaluru East",
+      "district": "Bengaluru Urban",
+      "khata_no": "KH-4510-C"
+    },
+    "resolution": {
+      "parcel_id": "45/1",
+      "survey_number": "45/1",
+      "owner": "Ramesh Kumar Gowda, Suresh Babu Hegde",
+      "owners": [
+        "Ramesh Kumar Gowda",
+        "Suresh Babu Hegde"
+      ],
+      "severity": "CRITICAL",
+      "conflict_type": "SURVEY_NUMBER_MISMATCH",
+      "conflict_details": "Official survey coordinates match the recorded geometry within acceptable tolerance (< 0.5m deviation).",
+      "existing_coordinates": [
+        [
+          [
+            77.742,
+            12.99089
+          ],
+          [
+            77.74291,
+            12.99089
+          ],
+          [
+            77.74291,
+            12.99
+          ],
+          [
+            77.742,
+            12.99
+          ],
+          [
+            77.742,
+            12.99089
+          ]
+        ]
+      ],
+      "conflicting_coordinates": [
+        [
+          [
+            77.742,
+            12.99089
+          ],
+          [
+            77.74291,
+            12.99089
+          ],
+          [
+            77.74291,
+            12.99
+          ],
+          [
+            77.742,
+            12.99
+          ],
+          [
+            77.742,
+            12.99089
+          ]
+        ]
+      ],
+      "official_survey_coordinates": [
+        [
+          [
+            77.742,
+            12.99089
+          ],
+          [
+            77.74291,
+            12.99089
+          ],
+          [
+            77.74291,
+            12.99
+          ],
+          [
+            77.742,
+            12.99
+          ],
+          [
+            77.742,
+            12.99089
+          ]
+        ]
+      ],
+      "coordinate_source": "Official Survey Document \u2013 Official Cadastral Survey Map & FMB Boundary Sheet [DOC-SSLR-2025-451, Survey Settlement & Land Records Dept (SSLR), Govt of Karnataka, Date: 2025-11-20]",
+      "source_document": {
+        "doc_id": "DOC-SSLR-2025-451",
+        "doc_name": "Official Cadastral Survey Map & FMB Boundary Sheet",
+        "authority": "Survey Settlement & Land Records Dept (SSLR), Govt of Karnataka",
+        "date": "2025-11-20",
+        "verified": true,
+        "notes": "Statutory FMB revision establishing original boundary coordinates of Survey No. 45/1"
+      },
+      "coordinate_comparison_result": "Official survey coordinates match the recorded geometry within acceptable tolerance (< 0.5m deviation).",
+      "recommended_solution": "Verify ownership using the authoritative land/registration document.",
+      "required_action": "LEGAL_DOCUMENT_VERIFICATION_REQUIRED",
+      "status": "PENDING_REVIEW",
+      "spatial_difference": {
+        "max_boundary_deviation_meters": 0.0,
+        "conflicting_area_acres": 2.4004,
+        "official_survey_area_acres": 2.4004,
+        "area_difference_acres": 0.0,
+        "area_difference_m2": 0.0
+      },
+      "official_geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.742,
+              12.99089
+            ],
+            [
+              77.74291,
+              12.99089
+            ],
+            [
+              77.74291,
+              12.99
+            ],
+            [
+              77.742,
+              12.99
+            ],
+            [
+              77.742,
+              12.99089
+            ]
+          ]
+        ]
+      }
+    }
+  },
+  {
+    "parcel_id": "89/2",
+    "survey_number": "89/2",
+    "owners": [
+      "Muniswamappa"
+    ],
+    "owner_display": "Muniswamappa",
+    "conflict_detected": true,
+    "overall_severity": "CRITICAL",
+    "conflicts": [
+      {
+        "type": "BOUNDARY_MISMATCH",
+        "severity": "HIGH",
+        "old_value": "Cadastral Boundary",
+        "new_value": "Survey Boundary (8.79m shift)",
+        "description": "Boundary alignment deviation of 8.79 meters detected between cadastral and ground survey",
+        "details": {
+          "max_deviation_meters": 8.79
+        }
+      },
+      {
+        "type": "GEOMETRY_AREA_MISMATCH",
+        "severity": "MEDIUM",
+        "old_value": "1.750 acres (7082.0 m\u00b2)",
+        "new_value": "1.886 acres (7633.0 m\u00b2)",
+        "description": "Calculated GIS geometry area differs from recorded RoR area by 7.8%",
+        "details": {
+          "recorded_area_m2": 7082.01,
+          "geometry_area_m2": 7633.03,
+          "pct_difference": 7.78
+        }
+      },
+      {
+        "type": "PARCEL_OVERLAP",
+        "severity": "CRITICAL",
+        "old_value": "Boundary of 89/2",
+        "new_value": "Overlaps 90/1 by 671.7 m\u00b2",
+        "description": "Illegal boundary overlap / encroachment of 671.7 m\u00b2 (9.4%) with adjacent parcel 90/1",
+        "details": {
+          "overlapping_parcel": "90/1",
+          "overlap_area_m2": 671.67,
+          "overlap_pct": 9.45
+        }
+      }
+    ],
+    "changes": [],
+    "summary": "Parcel 89/2 has a cadastral boundary deviation of 8.79m, a discrepancy between GIS mapped area and textual RoR area, and a boundary overlap of 671.67 m\u00b2 with parcel 90/1. Overall conflict severity: CRITICAL.",
+    "formatted_conflict_report": "\u26a0\ufe0f CRITICAL CONFLICT\n\nParcel ID: 89/2\nSurvey Number: 89/2\nOwner: Muniswamappa\n\nConflict Type: Boundary Mismatch\nSeverity: CRITICAL\n\nConflicting Coordinates:\n[[[77.7432, 12.99076], [77.74398, 12.99076], [77.74398, 12.99], [77.7432, 12.99], [77.7432, 12.99076]]]\n\nOfficial Survey Coordinates:\n[[[77.7432, 12.99076], [77.7439, 12.99076], [77.7439, 12.99], [77.7432, 12.99], [77.7432, 12.99076]]]\n\nCoordinate Source:\nOfficial Survey Document \u2013 Official Cadastral Map & FMB Tie-Line Sheet [DOC-SSLR-2025-8920, Survey Settlement & Land Records Dept (SSLR), Govt of Karnataka, Date: 2025-08-15]\n\nCoordinate Comparison Result:\nSignificant spatial deviation detected: Maximum boundary vertex shift of 8.68 meters and area discrepancy of 0.180 acres (729.2 m\u00b2) between the conflicting record (1.757 acres) and official survey document (1.577 acres).\n\nRecommended Solution:\nCompare the conflicting boundary with the official survey coordinates and perform manual survey verification.\n\nRequired Action:\nMANUAL_SURVEY_VERIFICATION_REQUIRED\n\nStatus:\nPENDING_REVIEW",
+    "metadata": {
+      "village": "Kadugodi",
+      "taluk": "Bengaluru East",
+      "district": "Bengaluru Urban",
+      "khata_no": "KH-8920-B"
+    },
+    "resolution": {
+      "parcel_id": "89/2",
+      "survey_number": "89/2",
+      "owner": "Muniswamappa",
+      "owners": [
+        "Muniswamappa"
+      ],
+      "severity": "CRITICAL",
+      "conflict_type": "BOUNDARY_MISMATCH",
+      "conflict_details": "Significant spatial deviation detected: Maximum boundary vertex shift of 8.68 meters and area discrepancy of 0.180 acres (729.2 m\u00b2) between the conflicting record (1.757 acres) and official survey document (1.577 acres).",
+      "existing_coordinates": [
+        [
+          [
+            77.7432,
+            12.99076
+          ],
+          [
+            77.74398,
+            12.99076
+          ],
+          [
+            77.74398,
+            12.99
+          ],
+          [
+            77.7432,
+            12.99
+          ],
+          [
+            77.7432,
+            12.99076
+          ]
+        ]
+      ],
+      "conflicting_coordinates": [
+        [
+          [
+            77.7432,
+            12.99076
+          ],
+          [
+            77.74398,
+            12.99076
+          ],
+          [
+            77.74398,
+            12.99
+          ],
+          [
+            77.7432,
+            12.99
+          ],
+          [
+            77.7432,
+            12.99076
+          ]
+        ]
+      ],
+      "official_survey_coordinates": [
+        [
+          [
+            77.7432,
+            12.99076
+          ],
+          [
+            77.7439,
+            12.99076
+          ],
+          [
+            77.7439,
+            12.99
+          ],
+          [
+            77.7432,
+            12.99
+          ],
+          [
+            77.7432,
+            12.99076
+          ]
+        ]
+      ],
+      "coordinate_source": "Official Survey Document \u2013 Official Cadastral Map & FMB Tie-Line Sheet [DOC-SSLR-2025-8920, Survey Settlement & Land Records Dept (SSLR), Govt of Karnataka, Date: 2025-08-15]",
+      "source_document": {
+        "doc_id": "DOC-SSLR-2025-8920",
+        "doc_name": "Official Cadastral Map & FMB Tie-Line Sheet",
+        "authority": "Survey Settlement & Land Records Dept (SSLR), Govt of Karnataka",
+        "date": "2025-08-15",
+        "verified": true,
+        "notes": "Statutory survey map defining eastern boundary line of Survey No. 89/2 (abuts 90/1 at lng 77.74390)"
+      },
+      "coordinate_comparison_result": "Significant spatial deviation detected: Maximum boundary vertex shift of 8.68 meters and area discrepancy of 0.180 acres (729.2 m\u00b2) between the conflicting record (1.757 acres) and official survey document (1.577 acres).",
+      "recommended_solution": "Compare the conflicting boundary with the official survey coordinates and perform manual survey verification.",
+      "required_action": "MANUAL_SURVEY_VERIFICATION_REQUIRED",
+      "status": "PENDING_REVIEW",
+      "spatial_difference": {
+        "max_boundary_deviation_meters": 8.68,
+        "conflicting_area_acres": 1.7569,
+        "official_survey_area_acres": 1.5767,
+        "area_difference_acres": 0.1802,
+        "area_difference_m2": 729.24
+      },
+      "official_geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.7432,
+              12.99076
+            ],
+            [
+              77.7439,
+              12.99076
+            ],
+            [
+              77.7439,
+              12.99
+            ],
+            [
+              77.7432,
+              12.99
+            ],
+            [
+              77.7432,
+              12.99076
+            ]
+          ]
+        ]
+      }
+    }
+  },
+  {
+    "parcel_id": "90/1",
+    "survey_number": "90/1",
+    "owners": [
+      "Anjanappa Trust"
+    ],
+    "owner_display": "Anjanappa Trust",
+    "conflict_detected": true,
+    "overall_severity": "CRITICAL",
+    "conflicts": [
+      {
+        "type": "PARCEL_OVERLAP",
+        "severity": "CRITICAL",
+        "old_value": "Boundary of 90/1",
+        "new_value": "Overlaps 89/2 by 671.7 m\u00b2",
+        "description": "Illegal boundary overlap / encroachment of 671.7 m\u00b2 with adjacent parcel 89/2",
+        "details": {
+          "overlapping_parcel": "89/2",
+          "overlap_area_m2": 671.67
+        }
+      }
+    ],
+    "changes": [],
+    "summary": "Parcel 90/1 has a boundary overlap of 671.67 m\u00b2 with parcel 89/2. Overall conflict severity: CRITICAL.",
+    "formatted_conflict_report": "\u26a0\ufe0f CRITICAL CONFLICT\n\nParcel ID: 90/1\nSurvey Number: 90/1\nOwner: Anjanappa Trust\n\nConflict Type: Parcel Overlap\nSeverity: CRITICAL\n\nConflicting Coordinates:\n[[[77.7439, 12.9907], [77.74462, 12.9907], [77.74462, 12.99], [77.7439, 12.99], [77.7439, 12.9907]]]\n\nOfficial Survey Coordinates:\n[[[77.7439, 12.9907], [77.74462, 12.9907], [77.74462, 12.99], [77.7439, 12.99], [77.7439, 12.9907]]]\n\nCoordinate Source:\nOfficial Survey Document \u2013 Official Cadastral Map & FMB Boundary Record [DOC-SSLR-2025-9010, Survey Settlement & Land Records Dept (SSLR), Govt of Karnataka, Date: 2025-08-15]\n\nCoordinate Comparison Result:\nOfficial survey coordinates match the recorded geometry within acceptable tolerance (< 0.5m deviation).\n\nRecommended Solution:\nInspect boundary overlap against authoritative survey map and perform joint field verification.\n\nRequired Action:\nMANUAL_SURVEY_VERIFICATION_REQUIRED\n\nStatus:\nPENDING_REVIEW",
+    "metadata": {
+      "village": "Kadugodi",
+      "taluk": "Bengaluru East",
+      "district": "Bengaluru Urban",
+      "khata_no": "KH-9010-A"
+    },
+    "resolution": {
+      "parcel_id": "90/1",
+      "survey_number": "90/1",
+      "owner": "Anjanappa Trust",
+      "owners": [
+        "Anjanappa Trust"
+      ],
+      "severity": "CRITICAL",
+      "conflict_type": "PARCEL_OVERLAP",
+      "conflict_details": "Official survey coordinates match the recorded geometry within acceptable tolerance (< 0.5m deviation).",
+      "existing_coordinates": [
+        [
+          [
+            77.7439,
+            12.9907
+          ],
+          [
+            77.74462,
+            12.9907
+          ],
+          [
+            77.74462,
+            12.99
+          ],
+          [
+            77.7439,
+            12.99
+          ],
+          [
+            77.7439,
+            12.9907
+          ]
+        ]
+      ],
+      "conflicting_coordinates": [
+        [
+          [
+            77.7439,
+            12.9907
+          ],
+          [
+            77.74462,
+            12.9907
+          ],
+          [
+            77.74462,
+            12.99
+          ],
+          [
+            77.7439,
+            12.99
+          ],
+          [
+            77.7439,
+            12.9907
+          ]
+        ]
+      ],
+      "official_survey_coordinates": [
+        [
+          [
+            77.7439,
+            12.9907
+          ],
+          [
+            77.74462,
+            12.9907
+          ],
+          [
+            77.74462,
+            12.99
+          ],
+          [
+            77.7439,
+            12.99
+          ],
+          [
+            77.7439,
+            12.9907
+          ]
+        ]
+      ],
+      "coordinate_source": "Official Survey Document \u2013 Official Cadastral Map & FMB Boundary Record [DOC-SSLR-2025-9010, Survey Settlement & Land Records Dept (SSLR), Govt of Karnataka, Date: 2025-08-15]",
+      "source_document": {
+        "doc_id": "DOC-SSLR-2025-9010",
+        "doc_name": "Official Cadastral Map & FMB Boundary Record",
+        "authority": "Survey Settlement & Land Records Dept (SSLR), Govt of Karnataka",
+        "date": "2025-08-15",
+        "verified": true,
+        "notes": "Statutory survey map defining western boundary line of Survey No. 90/1 (starts at lng 77.74390)"
+      },
+      "coordinate_comparison_result": "Official survey coordinates match the recorded geometry within acceptable tolerance (< 0.5m deviation).",
+      "recommended_solution": "Inspect boundary overlap against authoritative survey map and perform joint field verification.",
+      "required_action": "MANUAL_SURVEY_VERIFICATION_REQUIRED",
+      "status": "PENDING_REVIEW",
+      "spatial_difference": {
+        "max_boundary_deviation_meters": 0.0,
+        "conflicting_area_acres": 1.4938,
+        "official_survey_area_acres": 1.4938,
+        "area_difference_acres": 0.0,
+        "area_difference_m2": 0.0
+      },
+      "official_geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.7439,
+              12.9907
+            ],
+            [
+              77.74462,
+              12.9907
+            ],
+            [
+              77.74462,
+              12.99
+            ],
+            [
+              77.7439,
+              12.99
+            ],
+            [
+              77.7439,
+              12.9907
+            ]
+          ]
+        ]
+      }
+    }
+  },
+  {
+    "parcel_id": "105",
+    "survey_number": "105",
+    "owners": [
+      "Shantamma & Sons"
+    ],
+    "owner_display": "Shantamma & Sons",
+    "conflict_detected": true,
+    "overall_severity": "MEDIUM",
+    "conflicts": [],
+    "changes": [
+      {
+        "type": "PARCEL_SPLIT",
+        "from_year": 2024,
+        "to_year": 2026,
+        "severity": "MEDIUM",
+        "old_value": "Parent Parcel 105",
+        "new_value": "Subdivided into 2 parcels (105/1, 105/2)",
+        "description": "Parcel 105 underwent legal/spatial split into sub-parcels 105/1, 105/2 between 2024 and 2026",
+        "details": {
+          "parent_parcel": "105",
+          "child_parcels": [
+            "105/1",
+            "105/2"
+          ]
+        }
+      }
+    ],
+    "summary": "A parcel subdivision occurred between 2024 and 2026 (Subdivided into 2 parcels (105/1, 105/2)). Overall conflict severity: MEDIUM.",
+    "formatted_conflict_report": "\u26a0\ufe0f CONFLICT DETECTED\n\nParcel ID: 105\nSurvey Number: 105\n\nLand Owner: Shantamma & Sons\n\nDetected Change: Parcel Split (2024 \u2192 2026)\nDetails: Parcel 105 underwent legal/spatial split into sub-parcels 105/1, 105/2 between 2024 and 2026",
+    "metadata": {
+      "village": "Kadugodi",
+      "taluk": "Bengaluru East",
+      "district": "Bengaluru Urban",
+      "khata_no": "KH-1050-X"
+    }
+  },
+  {
+    "parcel_id": "214/A",
+    "survey_number": "214/A",
+    "owners": [
+      "Narayanaswamy"
+    ],
+    "owner_display": "Narayanaswamy",
+    "conflict_detected": true,
+    "overall_severity": "HIGH",
+    "conflicts": [
+      {
+        "type": "MISSING_VALUE",
+        "severity": "HIGH",
+        "new_value": "MISSING",
+        "field_name": "owner_name",
+        "description": "Mandatory field 'owner_name' is missing in Town Planning Masterplan",
+        "details": {
+          "source": "Town Planning Masterplan",
+          "field": "owner_name"
+        }
+      },
+      {
+        "type": "LAND_USE_MISMATCH",
+        "severity": "MEDIUM",
+        "old_value": "Agricultural",
+        "new_value": "Commercial - IT Corridor",
+        "field_name": "land_use",
+        "description": "Land use classification mismatch: 'Agricultural' vs 'Commercial - IT Corridor'",
+        "details": {
+          "base_source": "RoR Revenue Register (Bhoomi)",
+          "comp_source": "Town Planning Masterplan"
+        }
+      }
+    ],
+    "changes": [
+      {
+        "type": "LAND_USE_CHANGE",
+        "from_year": 2024,
+        "to_year": 2026,
+        "severity": "HIGH",
+        "old_value": "Agricultural",
+        "new_value": "Commercial - IT Corridor",
+        "description": "Land use conversion from 'Agricultural' to 'Commercial - IT Corridor' between 2024 and 2026",
+        "details": {
+          "from_use": "Agricultural",
+          "to_use": "Commercial - IT Corridor"
+        }
+      }
+    ],
+    "summary": "Parcel 214/A has missing owner_name and a land use conflict (Agricultural vs Commercial - IT Corridor). A land use conversion from 'Agricultural' to 'Commercial - IT Corridor' was registered between 2024 and 2026. Overall conflict severity: HIGH.",
+    "formatted_conflict_report": "\u26a0\ufe0f HIGH SEVERITY CONFLICT DETECTED\n\nParcel ID: 214/A\nSurvey Number: 214/A\n\nLand Owner: Narayanaswamy\n\nConflict Type: Missing Value\nNew Value: MISSING\nSeverity: HIGH\n\nConflict Type: Land Use Mismatch\nOld Value: Agricultural\nNew Value: Commercial - IT Corridor\nSeverity: MEDIUM\n\nRecommended Review:\nVerify boundary using official survey geometry. Official coordinates not available in current repository; manual ground survey required.\n\nRequired Action: MANUAL_SURVEY_VERIFICATION_REQUIRED\nStatus: PENDING_REVIEW\n\nDetected Change: Land Use Change (2024 \u2192 2026)\nDetails: Land use conversion from 'Agricultural' to 'Commercial - IT Corridor' between 2024 and 2026",
+    "metadata": {
+      "village": "Kadugodi",
+      "taluk": "Bengaluru East",
+      "district": "Bengaluru Urban"
+    },
+    "resolution": {
+      "parcel_id": "214/A",
+      "survey_number": "214/A",
+      "owner": "Narayanaswamy",
+      "owners": [
+        "Narayanaswamy"
+      ],
+      "severity": "HIGH",
+      "conflict_type": "MISSING_VALUE",
+      "conflict_details": "OFFICIAL_COORDINATES_NOT_AVAILABLE \u2013 Official document does not contain usable boundary coordinates. Physical ground survey verification is required.",
+      "existing_coordinates": [
+        [
+          [
+            77.7423,
+            12.98906
+          ],
+          [
+            77.74287,
+            12.98906
+          ],
+          [
+            77.74287,
+            12.9885
+          ],
+          [
+            77.7423,
+            12.9885
+          ],
+          [
+            77.7423,
+            12.98906
+          ]
+        ]
+      ],
+      "conflicting_coordinates": [
+        [
+          [
+            77.7423,
+            12.98906
+          ],
+          [
+            77.74287,
+            12.98906
+          ],
+          [
+            77.74287,
+            12.9885
+          ],
+          [
+            77.7423,
+            12.9885
+          ],
+          [
+            77.7423,
+            12.98906
+          ]
+        ]
+      ],
+      "official_survey_coordinates": "OFFICIAL_COORDINATES_NOT_AVAILABLE",
+      "coordinate_source": "Official Survey Document \u2013 Town Planning Land Use & Zonal Development Order [DOC-TP-2025-214A, Bengaluru Development Authority (BDA) / Town Planning, Date: 2025-05-12]",
+      "source_document": {
+        "doc_id": "DOC-TP-2025-214A",
+        "doc_name": "Town Planning Land Use & Zonal Development Order",
+        "authority": "Bengaluru Development Authority (BDA) / Town Planning",
+        "date": "2025-05-12",
+        "verified": true,
+        "notes": "Textual planning notification without digital polygon coordinates"
+      },
+      "coordinate_comparison_result": "OFFICIAL_COORDINATES_NOT_AVAILABLE \u2013 Official document does not contain usable boundary coordinates. Physical ground survey verification is required.",
+      "recommended_solution": "Verify boundary using official survey geometry. Official coordinates not available in current repository; manual ground survey required.",
+      "required_action": "MANUAL_SURVEY_VERIFICATION_REQUIRED",
+      "status": "PENDING_REVIEW",
+      "spatial_difference": {
+        "status": "OFFICIAL_COORDINATES_NOT_AVAILABLE"
+      },
+      "official_geometry": null
+    }
+  },
+  {
+    "parcel_id": "310",
+    "survey_number": "310",
+    "owners": [
+      "Pratap Singh"
+    ],
+    "owner_display": "Pratap Singh",
+    "conflict_detected": true,
+    "overall_severity": "LOW",
+    "conflicts": [],
+    "changes": [
+      {
+        "type": "REMOVED_BUILDING",
+        "from_year": 2024,
+        "to_year": 2026,
+        "severity": "LOW",
+        "old_value": "Structure (479.8 m\u00b2)",
+        "new_value": "Demolished / Cleared",
+        "description": "Building structure removed/demolished between 2024 and 2026",
+        "details": {
+          "building_id": "bld_old_310",
+          "cleared_area_m2": 479.77
+        }
+      }
+    ],
+    "summary": "A building demolition/clearance was detected between 2024 and 2026. Overall conflict severity: LOW.",
+    "formatted_conflict_report": "\u26a0\ufe0f CONFLICT DETECTED\n\nParcel ID: 310\nSurvey Number: 310\n\nLand Owner: Pratap Singh\n\nDetected Change: Removed Building (2024 \u2192 2026)\nDetails: Building structure removed/demolished between 2024 and 2026",
+    "metadata": {
+      "village": "Kadugodi",
+      "taluk": "Bengaluru East",
+      "district": "Bengaluru Urban",
+      "khata_no": "KH-3100-M"
+    }
+  },
+  {
+    "parcel_id": "77/4",
+    "survey_number": "77/4",
+    "owners": [
+      "Govindappa Gowda"
+    ],
+    "owner_display": "Govindappa Gowda",
+    "conflict_detected": false,
+    "overall_severity": "LOW",
+    "conflicts": [],
+    "changes": [],
+    "summary": "Parcel 77/4 has no detected data or spatial conflicts. No critical temporal changes observed. Overall conflict severity: LOW.",
+    "formatted_conflict_report": "\u2713 No conflicts detected on Parcel 77/4\nSurvey Number: 77/4\nLand Owner: Govindappa Gowda",
+    "metadata": {
+      "village": "Kadugodi",
+      "taluk": "Bengaluru East",
+      "district": "Bengaluru Urban",
+      "khata_no": "KH-7740-V"
+    }
+  }
+]
