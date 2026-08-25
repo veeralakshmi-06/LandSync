@@ -1,13 +1,13 @@
-# Byte-compiled / optimized / DLL files
+# Python
 __pycache__/
 *.py[cod]
 *$py.class
-
-# C extensions
 *.so
-
-# Distribution / packaging
 .Python
+env/
+venv/
+.venv/
+ENV/
 build/
 develop-eggs/
 dist/
@@ -19,54 +19,49 @@ lib64/
 parts/
 sdist/
 var/
-wheels/
-share/python-wheels/
 *.egg-info/
 .installed.cfg
 *.egg
-MANIFEST
 
-# PyInstaller
-#  Usually these files are written by a python script from a template
-#  before PyInstaller builds the exe, so as to inject date/other infos into it.
-*.manifest
-*.spec
+# Virtual Environment
+.venv/
 
-# Installer logs
-pip-log.txt
-pip-delete-this-directory.txt
-
-# Unit test / coverage reports
-htmlcov/
-.tox/
-.nox/
-.coverage
-.coverage.*
-.cache
-cache/
-nosetests.xml
-coverage.xml
-*.cover
-*.py,cover
-.hypothesis/
-.pytest_cache/
-cover/
-
-# Environments
+# Local Environment Variables & Secrets
 .env
-.venv
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
+.env.local
+*.pem
+*.key
 
-# IDE files
+# Geospatial Data Caches & Downloaded Imagery
+data/input/*
+!data/input/.gitkeep
+data/cache/*
+!data/cache/.gitkeep
+data/output/*
+!data/output/.gitkeep
+data/real/ukkadam_5km/raw/*
+!data/real/ukkadam_5km/raw/.gitkeep
+data/real/ukkadam_5km/processed/*
+!data/real/ukkadam_5km/processed/.gitkeep
+data/real/ukkadam_5km/sentinel2/raw/*
+!data/real/ukkadam_5km/sentinel2/raw/.gitkeep
+data/real/ukkadam_5km/sentinel2/processed/*
+!data/real/ukkadam_5km/sentinel2/processed/.gitkeep
+*.tif
+*.tiff
+*.jp2
+*.gpkg
+*.shp
+*.dbf
+*.shx
+*.prj
+*.geojson
+*.kml
+
+# Testing & IDE
+.pytest_cache/
+.coverage
+htmlcov/
 .vscode/
 .idea/
-*.swp
-*.swo
-
-# OS files
-.DS_Store
-Thumbs.db
+*.log
