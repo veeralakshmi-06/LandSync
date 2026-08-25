@@ -1,0 +1,5 @@
+# ==============================================================================
+# WanderWise Backend Dependencies
+# Canonical requirements file: data engineering/requirements.txt
+# ==============================================================================
+-r data engineering/requirements.txt

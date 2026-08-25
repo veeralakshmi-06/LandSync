@@ -1,0 +1,100 @@
+{
+    "dataset_summary": {
+        "total_parcels_processed": 200,
+        "region": "Avinashi Road Zone, Coimbatore (5 KM Radius)",
+        "departments_integrated": [
+            "Survey_Cadastral",
+            "Revenue_Patta",
+            "Registration_SRO",
+            "Municipal_DTCP"
+        ]
+    },
+    "critical_anomalies_detected": {
+        "area_mismatch_conflicts": 25,
+        "missing_patta_records": 0,
+        "unapproved_or_waterbody_zones": 56,
+        "encumbered_mortgaged_properties": 47
+    },
+    "sample_conflicted_parcels": [
+        {
+            "survey_number": "S.No 300/3",
+            "patta_holder": "Murugan",
+            "gis_area_sqm": 2015.81,
+            "revenue_area_sqm": 2177.21068,
+            "area_discrepancy_sqm": 161.4006800000002,
+            "zoning_classification": "Residential"
+        },
+        {
+            "survey_number": "S.No 301/2",
+            "patta_holder": "Suresh",
+            "gis_area_sqm": 3491.13,
+            "revenue_area_sqm": 3771.6735200000003,
+            "area_discrepancy_sqm": 280.54352000000017,
+            "zoning_classification": "Residential"
+        },
+        {
+            "survey_number": "S.No 301/3",
+            "patta_holder": "Vignesh",
+            "gis_area_sqm": 1380.71,
+            "revenue_area_sqm": 1489.24448,
+            "area_discrepancy_sqm": 108.53448000000003,
+            "zoning_classification": "Waterbody_Buffer"
+        },
+        {
+            "survey_number": "S.No 302/3",
+            "patta_holder": "Vignesh",
+            "gis_area_sqm": 3997.99,
+            "revenue_area_sqm": 4317.99962,
+            "area_discrepancy_sqm": 320.0096199999998,
+            "zoning_classification": "Commercial"
+        },
+        {
+            "survey_number": "S.No 302/4",
+            "patta_holder": "Ramasamy",
+            "gis_area_sqm": 2013.63,
+            "revenue_area_sqm": 1853.46188,
+            "area_discrepancy_sqm": 160.16812000000004,
+            "zoning_classification": "Residential"
+        },
+        {
+            "survey_number": "S.No 303/2",
+            "patta_holder": "Vignesh",
+            "gis_area_sqm": 1759.28,
+            "revenue_area_sqm": 1618.7440000000001,
+            "area_discrepancy_sqm": 140.53599999999983,
+            "zoning_classification": "Commercial"
+        },
+        {
+            "survey_number": "S.No 310/5",
+            "patta_holder": "Lakshmi",
+            "gis_area_sqm": 444.14,
+            "revenue_area_sqm": 408.73286,
+            "area_discrepancy_sqm": 35.40713999999997,
+            "zoning_classification": "Waterbody_Buffer"
+        },
+        {
+            "survey_number": "S.No 312/1",
+            "patta_holder": "Ramasamy",
+            "gis_area_sqm": 1004.66,
+            "revenue_area_sqm": 1084.5584800000001,
+            "area_discrepancy_sqm": 79.89848000000018,
+            "zoning_classification": "Waterbody_Buffer"
+        },
+        {
+            "survey_number": "S.No 312/2",
+            "patta_holder": "Lakshmi",
+            "gis_area_sqm": 953.65,
+            "revenue_area_sqm": 878.16862,
+            "area_discrepancy_sqm": 75.48137999999994,
+            "zoning_classification": "Agricultural"
+        },
+        {
+            "survey_number": "S.No 312/3",
+            "patta_holder": "Suresh",
+            "gis_area_sqm": 1066.15,
+            "revenue_area_sqm": 1153.3551,
+            "area_discrepancy_sqm": 87.2050999999999,
+            "zoning_classification": "Waterbody_Buffer"
+        }
+    ]
+}
