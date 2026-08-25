@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LANDSYNC — AI Land Data Intelligence & Harmonization Platform</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+
+  <!-- React 18 & Babel Standalone -->
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Leaflet GIS Map -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: #0a1a17;
+      color: #faf7ef;
+      font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+      overflow-x: hidden;
+    }
+    button, input, select { font-family: inherit; }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); }
+    ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 999px; }
+    #leaflet-map { height: 500px; width: 100%; border-radius: 20px; z-index: 1; }
+    .leaflet-container { background: #0a1412 !important; border-radius: 20px; font-family: 'Inter', sans-serif; }
+    .custom-popup .leaflet-popup-content-wrapper { background: #161c18; color: #faf7ef; border: 1px solid rgba(255,255,255,0.15); border-radius: 14px; box-shadow: 0 10px 30px rgba(0,0,0,0.6); }
+    .custom-popup .leaflet-popup-tip { background: #161c18; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useMemo, useEffect, useRef } = React;
+
+    const C = {
+      ground950: "#121314", ground900: "#17181a", ground850: "#1c1e19",
+      surface1: "#1a1d16", surface2: "#23281d",
+      line1: "#ffffff14", line2: "#ffffff1f", line3: "#ffffff2e",
+      cyan: "#9caf88", emerald: "#c9a876", amber: "#d98e4a", critical: "#be5a4c",
+      ink000: "#faf7ef", ink100: "#e8e3d6", ink300: "#a6ac98", ink500: "#767c6c", ink700: "#4a4f42",
+      glass: "rgba(18,32,28,0.45)", glassStrong: "rgba(14,26,23,0.85)", glassBorder: "rgba(250,247,239,0.20)",
+    };
+
+    const FONT_DISPLAY = "'Space Grotesk', 'Inter', ui-sans-serif, sans-serif";
+    const FONT_MONO = "'JetBrains Mono', ui-monospace, monospace";
+
+    function seedRandom(seed) {
+      let s = seed % 2147483647;
+      if (s <= 0) s += 2147483646;
+      return () => {
+        s = (s * 16807) % 2147483647;
+        return (s - 1) / 2147483646;
+      };
+    }
+
+    const DISTRICTS = [
+      { id: "d-coimbatore", name: "Coimbatore", state: "Tamil Nadu", parcels: 41822, conflicts: 812, lat: 11.0168, lng: 76.9558 },
+      { id: "d-erode", name: "Erode", state: "Tamil Nadu", parcels: 28110, conflicts: 401, lat: 11.3410, lng: 77.7172 },
+      { id: "d-madurai", name: "Madurai", state: "Tamil Nadu", parcels: 36590, conflicts: 663, lat: 9.9252, lng: 78.1198 },
+      { id: "d-pune", name: "Pune", state: "Maharashtra", parcels: 52310, conflicts: 1104, lat: 18.5204, lng: 73.8567 },
+      { id: "d-nashik", name: "Nashik", state: "Maharashtra", parcels: 24780, conflicts: 355, lat: 19.9975, lng: 73.7898 },
+      { id: "d-bengaluru-rural", name: "Bengaluru Rural", state: "Karnataka", parcels: 19240, conflicts: 588, lat: 13.2340, lng: 77.5684 },
+    ];
+
+    const sourceLayers = ["Cadastral (DILRMP)", "Municipal GIS", "Survey Settlement", "RoR / Bhulekh", "Satellite Cadastre"];
+    const villageNames = ["Kinathukadavu", "Sulur", "Pollachi", "Annur", "Mettupalayam", "Palladam", "Perundurai", "Bhavani", "Gobichettipalayam", "Melur", "Usilampatti", "Haveli", "Baramati", "Devlali", "Sinnar", "Nelamangala", "Devanahalli", "Hoskote"];
+    const ownerTypes = ["Individual patta", "Joint family holding", "Government (Poramboke)", "Institutional trust", "Cooperative society"];
+    const landUses = ["Agricultural — irrigated", "Agricultural — rainfed", "Residential", "Mixed use", "Vacant / fallow", "Commercial"];
+
+    function buildParcel(i, rng) {
+      const district = DISTRICTS[Math.floor(rng() * DISTRICTS.length)];
+      const village = villageNames[Math.floor(rng() * villageNames.length)];
+      const surveyNo = `${Math.floor(rng() * 400) + 1}/${["1", "2", "1A", "3B", ""][Math.floor(rng() * 5)]}`.replace(/\/$/, "");
+      const identity = 78 + rng() * 21;
+      const geometry = 70 + rng() * 29;
+      const areaConsistency = 55 + rng() * 44;
+      const adminConsistency = 68 + rng() * 31;
+      const temporalConsistency = 62 + rng() * 37;
+      const overall = identity * 0.28 + geometry * 0.24 + areaConsistency * 0.2 + adminConsistency * 0.16 + temporalConsistency * 0.12;
+      const cadastralArea = +(800 + rng() * 8000).toFixed(0);
+      const areaDrift = (areaConsistency < 85 ? (95 - areaConsistency) / 10 : 0.4) * (rng() > 0.5 ? 1 : -1);
+      const rorArea = +(cadastralArea * (1 + areaDrift / 100)).toFixed(0);
+      const status = overall >= 90 ? "harmonized" : overall >= 75 ? "review" : overall >= 60 ? "flagged" : "critical";
+
+      const conflicts = [];
+      if (areaConsistency < 90) conflicts.push({ type: "Area mismatch", severity: areaConsistency < 65 ? "critical" : areaConsistency < 82 ? "high" : "medium", detail: `Reported area differs by ${Math.abs(areaDrift).toFixed(1)}% between cadastral and RoR records.` });
+      if (adminConsistency < 85) conflicts.push({ type: "Jurisdiction overlap", severity: adminConsistency < 70 ? "high" : "medium", detail: `Taluk boundary in municipal GIS layer disagrees with revenue village code on record.` });
+      if (geometry < 85) conflicts.push({ type: "Geometry drift", severity: geometry < 72 ? "high" : "medium", detail: `Digitised boundary deviates ${(90 - geometry).toFixed(1)}m avg. from satellite cadastre trace.` });
+      if (temporalConsistency < 80) conflicts.push({ type: "Stale mutation", severity: "medium", detail: `Last mutation recorded ${Math.floor((90 - temporalConsistency) / 4)} registry cycles behind linked deed.` });
+      if (rng() < 0.15) conflicts.push({ type: "Loan Mortgage Flag", severity: "high", detail: `Active charge registered at Sub-Registrar Office under Canara Bank.` });
+
+      // Geographic polygon bounds
+      const lat = 11.0168 + (rng() - 0.5) * 0.08;
+      const lng = 76.9558 + (rng() - 0.5) * 0.08;
+      const dlat = 0.0015 + rng() * 0.0015;
+      const dlng = 0.0018 + rng() * 0.0018;
+
+      const polygonCoords = [
+        [lat - dlat, lng - dlng],
+        [lat + dlat, lng - dlng * 0.8],
+        [lat + dlat * 1.1, lng + dlng],
+        [lat - dlat * 0.9, lng + dlng * 0.9],
+      ];
+
+      return {
+        id: `LS-${(cadastralArea + i * 7).toString().padStart(5, "0")}-${district.id.slice(2, 5).toUpperCase()}`,
+        surveyNo, village, district: district.name, state: district.state,
+        ownerType: ownerTypes[Math.floor(rng() * ownerTypes.length)],
+        landUse: landUses[Math.floor(rng() * landUses.length)],
+        cadastralArea, rorArea, status,
+        dna: { identity: +identity.toFixed(1), geometry: +geometry.toFixed(1), areaConsistency: +areaConsistency.toFixed(1), adminConsistency: +adminConsistency.toFixed(1), temporalConsistency: +temporalConsistency.toFixed(1), overall: +overall.toFixed(1) },
+        sources: sourceLayers.filter(() => rng() > 0.35).length ? sourceLayers.filter(() => rng() > 0.35) : [sourceLayers[0]],
+        conflicts,
+        lat, lng, polygonCoords,
+        lastSynced: `2026-08-${(Math.floor(rng() * 24) + 1).toString().padStart(2, "0")}`,
+      };
+    }
+
+    const rng = seedRandom(42);
+    const PARCELS = Array.from({ length: 60 }, (_, i) => buildParcel(i, rng));
+    const STATUS_META = {
+      harmonized: { label: "Harmonized", tone: "emerald", color: "#c9a876" },
+      review: { label: "Needs review", tone: "cyan", color: "#9caf88" },
+      flagged: { label: "Flagged", tone: "amber", color: "#d98e4a" },
+      critical: { label: "Critical conflict", tone: "critical", color: "#be5a4c" },
+    };
+
+    const DATASETS = [
+      { id: "ds-01", name: "DILRMP Cadastral Master", type: "Cadastral Layer", dept: "Dept. of Land Resources", records: 41822, quality: 94, schema: "survey_no, geom, patta_holder, ext_sqm", status: "ONLINE SYNC" },
+      { id: "ds-02", name: "Municipal GIS — CCMC", type: "Municipal GIS", dept: "Coimbatore City Municipal Corp.", records: 18630, quality: 88, schema: "gis_pid, ward_no, tax_zone, build_perm", status: "ONLINE SYNC" },
+      { id: "ds-03", name: "Survey Settlement Records 1978–2004", type: "Survey Archive", dept: "Survey & Settlement Dept.", records: 66920, quality: 71, schema: "fmb_no, chain_link, sub_div, boundary_pts", status: "OCR INDEXED" },
+      { id: "ds-04", name: "RoR / Bhulekh Extract", type: "Land Revenue", dept: "Revenue Dept. (Bhoomi)", records: 58210, quality: 90, schema: "khata_no, khasra, owner_share, mutation_no", status: "ONLINE SYNC" },
+      { id: "ds-05", name: "Satellite Cadastre Trace (ISRO/Bhuvan)", type: "Geospatial Imagery", dept: "NRSC / ISRO", records: 112400, quality: 96, schema: "tile_epsg4326, iou_vector, capture_date", status: "LIVE TELEMETRY" },
+      { id: "ds-06", name: "Sub-Registrar Encumbrance Roll", type: "Registration & Loans", dept: "Registration Dept.", records: 39400, quality: 92, schema: "doc_no, bank_charge, liability_inr, ec_status", status: "ONLINE SYNC" },
+    ];
+
+    const HARMONIZATION_TREND = [
+      { month: "Mar", harmonized: 61, flagged: 22 }, { month: "Apr", harmonized: 65, flagged: 21 },
+      { month: "May", harmonized: 69, flagged: 19 }, { month: "Jun", harmonized: 74, flagged: 17 },
+      { month: "Jul", harmonized: 79, flagged: 14 }, { month: "Aug", harmonized: 83, flagged: 12 },
+    ];
+
+    const NATIONAL_STATS = { totalParcels: 202852, harmonizedPct: 83.4, activeConflicts: 3031, datasetsConnected: 6, avgConfidence: 87.2 };
+
+    function toneForScore(score) {
+      if (score >= 90) return "emerald";
+      if (score >= 75) return "cyan";
+      if (score >= 60) return "amber";
+      return "critical";
+    }
+    const toneHex = { emerald: C.emerald, cyan: C.cyan, amber: C.amber, critical: C.critical, neutral: C.ink500 };
+
+    /* UI Primitives */
+    function Backdrop() {
+      return (
+        <div style={{ position: "fixed", inset: 0, zIndex: 0, overflow: "hidden", background: "#0a1a17", pointerEvents: "none" }}>
+          <svg viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice" style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}>
+            <defs>
+              <filter id="lsBlurBig" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="130" /></filter>
+              <radialGradient id="lsVignette" cx="46%" cy="40%" r="78%">
+                <stop offset="0%" stopColor="#000000" stopOpacity="0" />
+                <stop offset="65%" stopColor="#000000" stopOpacity="0.12" />
+                <stop offset="100%" stopColor="#000000" stopOpacity="0.6" />
+              </radialGradient>
+            </defs>
+            <rect width="1600" height="1000" fill="#0a1a17" />
+            <g filter="url(#lsBlurBig)">
+              <ellipse cx="480" cy="140" rx="620" ry="420" fill="#3c5a58" opacity="0.85" />
+              <ellipse cx="1180" cy="160" rx="460" ry="340" fill="#a9b06a" opacity="0.4" />
+              <ellipse cx="330" cy="430" rx="430" ry="230" fill="#f2ece0" opacity="0.5" />
+              <ellipse cx="900" cy="620" rx="620" ry="440" fill="#0f4a3a" opacity="0.92" />
+              <ellipse cx="1300" cy="820" rx="480" ry="360" fill="#0a2e24" opacity="0.95" />
+            </g>
+            <rect width="1600" height="1000" fill="url(#lsVignette)" />
+          </svg>
+        </div>
+      );
+    }
+
+    function Badge({ children, tone = "neutral" }) {
+      const bg = { neutral: "#ffffff0f", cyan: "#9caf881a", emerald: "#c9a8761a", amber: "#d98e4a1a", critical: "#be5a4c1a" }[tone];
+      const fg = { neutral: C.ink300, cyan: "#c6d3ae", emerald: "#e3cfa0", amber: "#efc08a", critical: "#e39184" }[tone];
+      const bd = { neutral: C.line2, cyan: "#9caf8840", emerald: "#c9a87640", amber: "#d98e4a40", critical: "#be5a4c40" }[tone];
+      return (
+        <span style={{ display: "inline-flex", alignItems: "center", gap: 6, borderRadius: 999, border: `1px solid ${bd}`, background: bg, color: fg, padding: "4px 11px", fontSize: 11, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em" }}>
+          {children}
+        </span>
+      );
+    }
+
+    function Card({ children, style, onClick }) {
+      return (
+        <div onClick={onClick} style={{
+          background: C.glass,
+          backdropFilter: "blur(40px) saturate(180%)",
+          WebkitBackdropFilter: "blur(40px) saturate(180%)",
+          border: `1px solid ${C.glassBorder}`,
+          borderRadius: 24,
+          boxShadow: "0 20px 50px -20px #00000090",
+          ...style,
+        }}>
+          {children}
+        </div>
+      );
+    }
+
+    function DnaRing({ score, size = 68, stroke = 5 }) {
+      const r = (size - stroke) / 2, c = 2 * Math.PI * r;
+      const tone = toneForScore(score);
+      const offset = c - (score / 100) * c;
+      return (
+        <div style={{ position: "relative", width: size, height: size, display: "flex", alignItems: "center", justifyContent: "center", flex: "none" }}>
+          <svg width={size} height={size} style={{ transform: "rotate(-90deg)" }}>
+            <circle cx={size / 2} cy={size / 2} r={r} stroke="#ffffff14" strokeWidth={stroke} fill="none" />
+            <circle cx={size / 2} cy={size / 2} r={r} stroke={toneHex[tone]} strokeWidth={stroke} fill="none" strokeLinecap="round"
+              strokeDasharray={c} strokeDashoffset={offset} style={{ transition: "stroke-dashoffset 900ms ease-out" }} />
+          </svg>
+          <div style={{ position: "absolute", display: "flex", flexDirection: "column", alignItems: "center" }}>
+            <span style={{ fontFamily: FONT_MONO, fontSize: size < 50 ? 13 : 16, fontWeight: 600, color: C.ink000 }}>{score.toFixed(0)}</span>
+          </div>
+        </div>
+      );
+    }
+
+    function TrendChart({ data }) {
+      const maxVal = 100;
+      const w = 500, h = 140, p = 20;
+      const pts1 = data.map((d, i) => `${p + (i * (w - 2 * p)) / (data.length - 1)},${h - p - (d.harmonized / maxVal) * (h - 2 * p)}`).join(" ");
+      const pts2 = data.map((d, i) => `${p + (i * (w - 2 * p)) / (data.length - 1)},${h - p - (d.flagged / maxVal) * (h - 2 * p)}`).join(" ");
+      return (
+        <svg viewBox={`0 0 ${w} ${h}`} style={{ width: "100%", height: 160, overflow: "visible" }}>
+          <line x1={p} y1={h - p} x2={w - p} y2={h - p} stroke="#ffffff14" strokeDasharray="4 4" />
+          <line x1={p} y1={h / 2} x2={w - p} y2={h / 2} stroke="#ffffff0a" strokeDasharray="4 4" />
+          <polyline fill="none" stroke={C.emerald} strokeWidth="3" points={pts1} />
+          <polyline fill="none" stroke={C.amber} strokeWidth="2" strokeDasharray="5 3" points={pts2} />
+          {data.map((d, i) => {
+            const cx = p + (i * (w - 2 * p)) / (data.length - 1);
+            const cy = h - p - (d.harmonized / maxVal) * (h - 2 * p);
+            return (
+              <g key={i}>
+                <circle cx={cx} cy={cy} r="4" fill={C.emerald} />
+                <text x={cx} y={h} fill={C.ink500} fontSize="11" textAnchor="middle">{d.month}</text>
+              </g>
+            );
+          })}
+        </svg>
+      );
+    }
+
+    /* Authentication Modal */
+    function AuthModal({ isOpen, onClose, defaultTab = "user", onLoginSuccess }) {
+      const [tab, setTab] = useState(defaultTab);
+      const [email, setEmail] = useState("");
+      const [password, setPassword] = useState("");
+      const [deptCode, setDeptCode] = useState("REV-TAMILNADU-2026");
+
+      useEffect(() => { setTab(defaultTab); }, [defaultTab]);
+
+      if (!isOpen) return null;
+
+      const handleLogin = (e) => {
+        e.preventDefault();
+        onLoginSuccess({
+          role: tab === "admin" ? "admin" : "user",
+          name: tab === "admin" ? "Tahsildar / Admin Officer" : "Citizen / Landholder",
+          email: email || (tab === "admin" ? "admin.coimbatore@landsync.gov.in" : "citizen@landsync.in"),
+        });
+        onClose();
+      };
+
+      return (
+        <div style={{ position: "fixed", inset: 0, zIndex: 100, display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(0,0,0,0.7)", backdropFilter: "blur(12px)" }}>
+          <div style={{ width: 440, background: "#161a15", border: `1px solid ${C.glassBorder}`, borderRadius: 28, padding: 32, boxShadow: "0 30px 80px rgba(0,0,0,0.8)", position: "relative" }}>
+            
+            <button onClick={onClose} style={{ position: "absolute", top: 20, right: 20, background: "none", border: "none", color: C.ink500, cursor: "pointer" }}>
+              <i data-lucide="x" style={{ width: 20, height: 20 }}></i>
+            </button>
+
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 20 }}>
+              <div style={{ width: 40, height: 40, borderRadius: 12, background: "#9caf881a", border: "1px solid #9caf884d", display: "flex", alignItems: "center", justifyContent: "center", color: "#c6d3ae" }}>
+                <i data-lucide={tab === "admin" ? "shield-check" : "user"} style={{ width: 20, height: 20 }}></i>
+              </div>
+              <div>
+                <h3 style={{ margin: 0, fontFamily: FONT_DISPLAY, fontSize: 20, fontWeight: 700, color: C.ink000 }}>
+                  {tab === "admin" ? "Govt. Officer Portal" : "Citizen Land Portal"}
+                </h3>
+                <p style={{ margin: 0, fontSize: 12, color: C.ink500 }}>National Land Registry Harmonization</p>
+              </div>
+            </div>
+
+            <div style={{ display: "flex", background: "#0a1a17", borderRadius: 12, padding: 4, marginBottom: 24, border: `1px solid ${C.line1}` }}>
+              <button onClick={() => setTab("user")} style={{ flex: 1, padding: "8px 0", borderRadius: 8, border: "none", background: tab === "user" ? "#9caf8822" : "transparent", color: tab === "user" ? "#c6d3ae" : C.ink500, fontWeight: 600, fontSize: 13, cursor: "pointer" }}>
+                Citizen Login
+              </button>
+              <button onClick={() => setTab("admin")} style={{ flex: 1, padding: "8px 0", borderRadius: 8, border: "none", background: tab === "admin" ? "#c9a87622" : "transparent", color: tab === "admin" ? "#e3cfa0" : C.ink500, fontWeight: 600, fontSize: 13, cursor: "pointer" }}>
+                Govt. Official Login
+              </button>
+            </div>
+
+            <form onSubmit={handleLogin} style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+              <div>
+                <label style={{ display: "block", fontSize: 11, fontFamily: FONT_MONO, color: C.ink500, textTransform: "uppercase", marginBottom: 6 }}>
+                  {tab === "admin" ? "Govt Email ID" : "Mobile / Email Address"}
+                </label>
+                <input 
+                  type="text" 
+                  required 
+                  placeholder={tab === "admin" ? "admin.coimbatore@landsync.gov.in" : "citizen@example.com"}
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  style={{ width: "100%", background: "#0d1311", border: `1px solid ${C.line2}`, borderRadius: 12, padding: "12px 14px", color: C.ink000, fontSize: 13, outline: "none" }}
+                />
+              </div>
+
+              <div>
+                <label style={{ display: "block", fontSize: 11, fontFamily: FONT_MONO, color: C.ink500, textTransform: "uppercase", marginBottom: 6 }}>Password</label>
+                <input 
+                  type="password" 
+                  required 
+                  placeholder="••••••••••••"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  style={{ width: "100%", background: "#0d1311", border: `1px solid ${C.line2}`, borderRadius: 12, padding: "12px 14px", color: C.ink000, fontSize: 13, outline: "none" }}
+                />
+              </div>
+
+              {tab === "admin" && (
+                <div>
+                  <label style={{ display: "block", fontSize: 11, fontFamily: FONT_MONO, color: C.ink500, textTransform: "uppercase", marginBottom: 6 }}>Department Key</label>
+                  <input 
+                    type="text" 
+                    value={deptCode}
+                    onChange={(e) => setDeptCode(e.target.value)}
+                    style={{ width: "100%", background: "#0d1311", border: `1px solid ${C.line2}`, borderRadius: 12, padding: "12px 14px", color: C.cyan, fontSize: 12, fontFamily: FONT_MONO, outline: "none" }}
+                  />
+                </div>
+              )}
+
+              <button type="submit" style={{ marginTop: 8, padding: "14px", borderRadius: 999, border: "none", background: tab === "admin" ? C.emerald : C.cyan, color: C.ground950, fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {tab === "admin" ? "Authorize & Enter Admin Console" : "Sign In to LandSync"}
+              </button>
+            </form>
+          </div>
+        </div>
+      );
+    }
+
+    /* Live GIS Leaflet Map View */
+    function MapTabContent({ parcels, selectedParcel, onSelectParcel }) {
+      const mapRef = useRef(null);
+      const leafletInstance = useRef(null);
+      const layersRef = useRef({});
+
+      useEffect(() => {
+        if (!mapRef.current) return;
+
+        if (!leafletInstance.current) {
+          const map = L.map(mapRef.current).setView([11.0168, 76.9558], 14);
+          L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+            attribution: 'Esri Satellite'
+          }).addTo(map);
+          leafletInstance.current = map;
+        }
+
+        const map = leafletInstance.current;
+
+        // Clear existing polygons
+        Object.values(layersRef.current).forEach(l => map.removeLayer(l));
+        layersRef.current = {};
+
+        parcels.forEach((p) => {
+          const color = p.status === "harmonized" ? "#33cc33" : p.status === "review" ? "#9caf88" : p.status === "flagged" ? "#d98e4a" : "#be5a4c";
+          const isSelected = selectedParcel && selectedParcel.id === p.id;
+
+          const poly = L.polygon(p.polygonCoords, {
+            color: isSelected ? "#ffffff" : color,
+            weight: isSelected ? 3 : 1.5,
+            fillColor: color,
+            fillOpacity: isSelected ? 0.75 : 0.45,
+          }).addTo(map);
+
+          poly.bindTooltip(`<b>S.No ${p.surveyNo}</b><br/>${p.village} (${p.status.toUpperCase()})`);
+          poly.on('click', () => onSelectParcel(p));
+
+          layersRef.current[p.id] = poly;
+        });
+
+        if (selectedParcel && layersRef.current[selectedParcel.id]) {
+          map.panTo([selectedParcel.lat, selectedParcel.lng]);
+        }
+      }, [parcels, selectedParcel]);
+
+      return (
+        <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <div>
+              <h3 style={{ margin: 0, fontFamily: FONT_DISPLAY, fontSize: 22, fontWeight: 700, color: C.ink000 }}>Interactive Cadastral GIS Engine</h3>
+              <p style={{ margin: "4px 0 0", fontSize: 13, color: C.ink500 }}>Live vector overlay across Coimbatore 5KM Cadastral Registry</p>
+            </div>
+            <div style={{ display: "flex", gap: 12, fontSize: 12 }}>
+              <span style={{ display: "flex", alignItems: "center", gap: 6, color: "#33cc33" }}>● Harmonized</span>
+              <span style={{ display: "flex", alignItems: "center", gap: 6, color: "#d98e4a" }}>● Area Drift</span>
+              <span style={{ display: "flex", alignItems: "center", gap: 6, color: "#be5a4c" }}>● Critical</span>
+            </div>
+          </div>
+
+          <div id="leaflet-map" ref={mapRef}></div>
+        </div>
+      );
+    }
+
+    /* Main Application Controller */
+    function App() {
+      const [activeTab, setActiveTab] = useState("overview");
+      const [selectedParcel, setSelectedParcel] = useState(PARCELS[0]);
+      const [searchQuery, setSearchQuery] = useState("");
+      const [authModal, setAuthModal] = useState({ open: false, defaultTab: "user" });
+      const [currentUser, setCurrentUser] = useState({ role: "admin", name: "Tahsildar / Admin Officer", email: "admin.coimbatore@landsync.gov.in" });
+
+      useEffect(() => {
+        if (window.lucide) {
+          window.lucide.createIcons();
+        }
+      }, [activeTab, selectedParcel, authModal, currentUser, searchQuery]);
+
+      const filteredParcels = useMemo(() => {
+        if (!searchQuery.trim()) return PARCELS;
+        const q = searchQuery.toLowerCase();
+        return PARCELS.filter(p => 
+          p.surveyNo.toLowerCase().includes(q) ||
+          p.village.toLowerCase().includes(q) ||
+          p.district.toLowerCase().includes(q) ||
+          p.id.toLowerCase().includes(q) ||
+          p.ownerType.toLowerCase().includes(q) ||
+          p.status.toLowerCase().includes(q)
+        );
+      }, [searchQuery]);
+
+      const navItems = [
+        { id: "overview", label: "Overview", icon: "layout-dashboard" },
+        { id: "map", label: "Intelligence Map", icon: "map" },
+        { id: "datahub", label: "Data Hub", icon: "database" },
+        { id: "conflicts", label: "Conflict Radar", icon: "radar" },
+        { id: "parcels", label: "Parcel Intelligence", icon: "scan-search" },
+      ];
+
+      return (
+        <div style={{ position: "relative", minHeight: "100vh", display: "flex" }}>
+          <Backdrop />
+
+          {/* Sidebar */}
+          <aside style={{ width: 260, borderRight: `1px solid ${C.glassBorder}`, background: C.glassStrong, padding: "24px 16px", display: "flex", flexDirection: "column", gap: 8, zIndex: 10 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 24, paddingLeft: 8 }}>
+              <div style={{ width: 40, height: 40, borderRadius: 12, background: "#9caf881a", border: "1px solid #9caf884d", display: "flex", alignItems: "center", justifyContent: "center", color: "#c6d3ae" }}>
+                <i data-lucide="satellite" style={{ width: 22, height: 22 }}></i>
+              </div>
+              <div>
+                <h1 style={{ margin: 0, fontFamily: FONT_DISPLAY, fontSize: 18, fontWeight: 700, letterSpacing: "0.04em", color: C.ink000 }}>LANDSYNC</h1>
+                <p style={{ margin: 0, fontFamily: FONT_MONO, fontSize: 9, color: C.ink500, letterSpacing: "0.1em" }}>NATIONAL REGISTRY</p>
+              </div>
+            </div>
+
+            <nav style={{ display: "flex", flexDirection: "column", gap: 6, flex: 1 }}>
+              {navItems.map((item) => {
+                const isActive = activeTab === item.id;
+                return (
+                  <button key={item.id} onClick={() => setActiveTab(item.id)} style={{
+                    display: "flex", alignItems: "center", gap: 12, padding: "12px 16px", borderRadius: 14, border: "none",
+                    background: isActive ? "#9caf881a" : "transparent", color: isActive ? "#c6d3ae" : C.ink300, cursor: "pointer", textAlign: "left", fontSize: 14, fontWeight: 500
+                  }}>
+                    <i data-lucide={item.icon} style={{ width: 18, height: 18 }}></i>
+                    <span>{item.label}</span>
+                  </button>
+                );
+              })}
+            </nav>
+
+            <div style={{ padding: 14, borderRadius: 18, background: "#ffffff08", border: `1px solid ${C.line1}`, display: "flex", flexDirection: "column", gap: 8 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                <div style={{ width: 34, height: 34, borderRadius: 10, background: currentUser.role === "admin" ? "#c9a87622" : "#9caf8822", display: "flex", alignItems: "center", justifyContent: "center", color: currentUser.role === "admin" ? C.emerald : C.cyan }}>
+                  <i data-lucide={currentUser.role === "admin" ? "shield-check" : "user"} style={{ width: 18, height: 18 }}></i>
+                </div>
+                <div style={{ overflow: "hidden" }}>
+                  <p style={{ margin: 0, fontSize: 12, fontWeight: 600, color: C.ink000, whiteSpace: "nowrap", textOverflow: "ellipsis" }}>{currentUser.name}</p>
+                  <p style={{ margin: 0, fontSize: 10, fontFamily: FONT_MONO, color: C.ink500, textTransform: "uppercase" }}>{currentUser.role === "admin" ? "Govt Officer" : "Citizen User"}</p>
+                </div>
+              </div>
+              <div style={{ display: "flex", gap: 6, marginTop: 4 }}>
+                <button onClick={() => setAuthModal({ open: true, defaultTab: "user" })} style={{ flex: 1, padding: "6px 0", borderRadius: 8, background: "#ffffff0a", border: `1px solid ${C.line1}`, color: C.ink100, fontSize: 11, cursor: "pointer" }}>
+                  User Login
+                </button>
+                <button onClick={() => setAuthModal({ open: true, defaultTab: "admin" })} style={{ flex: 1, padding: "6px 0", borderRadius: 8, background: "#c9a8761a", border: "1px solid #c9a87640", color: "#e3cfa0", fontSize: 11, fontWeight: 600, cursor: "pointer" }}>
+                  Govt Login
+                </button>
+              </div>
+            </div>
+          </aside>
+
+          {/* Main Content Area */}
+          <div style={{ flex: 1, display: "flex", flexDirection: "column", zIndex: 10, overflowY: "auto" }}>
+            
+            <header style={{ height: 74, borderBottom: `1px solid ${C.glassBorder}`, background: C.glass, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 32px", gap: 20 }}>
+              <div style={{ position: "relative", width: 420 }}>
+                <i data-lucide="search" style={{ position: "absolute", left: 14, top: 12, width: 18, height: 18, color: C.ink500 }}></i>
+                <input 
+                  type="text" 
+                  placeholder="Search Survey No (e.g. 127/3), Village, Patta ID, or Status..." 
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  style={{ width: "100%", background: "#0a1a17b0", border: `1px solid ${C.line2}`, borderRadius: 999, padding: "10px 18px 10px 42px", color: C.ink000, fontSize: 13, outline: "none" }}
+                />
+                {searchQuery && (
+                  <button onClick={() => setSearchQuery("")} style={{ position: "absolute", right: 14, top: 11, background: "none", border: "none", color: C.ink500, cursor: "pointer" }}>
+                    <i data-lucide="x" style={{ width: 16, height: 16 }}></i>
+                  </button>
+                )}
+              </div>
+
+              <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+                <Badge tone="emerald">PostGIS Master Live</Badge>
+                <button onClick={() => setAuthModal({ open: true, defaultTab: "admin" })} style={{
+                  background: "#c9a8761a", border: "1px solid #c9a87640", borderRadius: 999, padding: "7px 16px", color: "#e3cfa0", fontSize: 12, fontWeight: 600, cursor: "pointer"
+                }}>
+                  {currentUser.role === "admin" ? "Admin Console (Active)" : "Switch to Admin"}
+                </button>
+              </div>
+            </header>
+
+            <main style={{ padding: 32, display: "grid", gridTemplateColumns: activeTab === "map" ? "1fr" : "2fr 1fr", gap: 24 }}>
+              
+              {/* TAB 1: OVERVIEW */}
+              {activeTab === "overview" && (
+                <>
+                  <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                    <Card style={{ padding: 26, background: "linear-gradient(135deg, #1c2016, #171a12)" }}>
+                      <Badge tone="cyan">Live Telemetry · Coimbatore 5KM Pilot</Badge>
+                      <h3 style={{ margin: "14px 0 8px", fontFamily: FONT_DISPLAY, fontSize: 26, fontWeight: 700, color: C.ink000 }}>
+                        {NATIONAL_STATS.harmonizedPct}% of records harmonized with zero human discrepancy.
+                      </h3>
+                      <p style={{ margin: 0, fontSize: 13.5, color: C.ink500, lineHeight: 1.5 }}>
+                        Multi-department PostGIS ledger linking Cadastral Polygons, Revenue Bhoomi, SRO Mortgages, and DTCP Layout approvals.
+                      </p>
+
+                      <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 12, marginTop: 22 }}>
+                        <div style={{ background: "#ffffff08", padding: 14, borderRadius: 16, textAlign: "center" }}>
+                          <p style={{ margin: 0, fontSize: 11, color: C.ink500 }}>Total Parcels</p>
+                          <p style={{ margin: "4px 0 0", fontFamily: FONT_DISPLAY, fontSize: 22, fontWeight: 700 }}>200</p>
+                        </div>
+                        <div style={{ background: "#ffffff08", padding: 14, borderRadius: 16, textAlign: "center" }}>
+                          <p style={{ margin: 0, fontSize: 11, color: C.ink500 }}>Area Conflicts</p>
+                          <p style={{ margin: "4px 0 0", fontFamily: FONT_DISPLAY, fontSize: 22, fontWeight: 700, color: C.amber }}>31</p>
+                        </div>
+                        <div style={{ background: "#ffffff08", padding: 14, borderRadius: 16, textAlign: "center" }}>
+                          <p style={{ margin: 0, fontSize: 11, color: C.ink500 }}>Mortgages</p>
+                          <p style={{ margin: "4px 0 0", fontFamily: FONT_DISPLAY, fontSize: 22, fontWeight: 700, color: C.critical }}>60</p>
+                        </div>
+                        <div style={{ background: "#ffffff08", padding: 14, borderRadius: 16, textAlign: "center" }}>
+                          <p style={{ margin: 0, fontSize: 11, color: C.ink500 }}>Confidence</p>
+                          <p style={{ margin: "4px 0 0", fontFamily: FONT_DISPLAY, fontSize: 22, fontWeight: 700, color: C.emerald }}>95.2%</p>
+                        </div>
+                      </div>
+                    </Card>
+
+                    <Card style={{ padding: 22 }}>
+                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14 }}>
+                        <h4 style={{ margin: 0, fontFamily: FONT_DISPLAY, fontSize: 16, color: C.ink000 }}>Harmonization vs Conflict Rate (%)</h4>
+                        <span style={{ fontSize: 11, color: C.emerald }}>● Harmonized &nbsp; <span style={{ color: C.amber }}>● Flagged</span></span>
+                      </div>
+                      <TrendChart data={HARMONIZATION_TREND} />
+                    </Card>
+
+                    <Card style={{ padding: 20 }}>
+                      <p style={{ margin: "0 0 12px", fontFamily: FONT_MONO, fontSize: 11, color: C.ink500, textTransform: "uppercase" }}>
+                        Cadastral Footprints ({filteredParcels.length} matches)
+                      </p>
+                      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(130px, 1fr))", gap: 8, maxHeight: 180, overflowY: "auto", paddingRight: 4 }}>
+                        {filteredParcels.map((p) => {
+                          const isSel = selectedParcel.id === p.id;
+                          return (
+                            <div key={p.id} onClick={() => setSelectedParcel(p)} style={{
+                              padding: "8px 10px", borderRadius: 12, cursor: "pointer", border: isSel ? `1px solid ${C.cyan}` : `1px solid #ffffff0d`,
+                              background: isSel ? "#9caf8822" : "#ffffff05"
+                            }}>
+                              <p style={{ margin: 0, fontSize: 12, fontWeight: 600, color: isSel ? "#c6d3ae" : C.ink100 }}>S.No {p.surveyNo}</p>
+                              <p style={{ margin: 0, fontSize: 10, color: C.ink500 }}>{p.village}</p>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </Card>
+                  </div>
+
+                  <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                    <Card style={{ padding: 24 }}>
+                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 16 }}>
+                        <div>
+                          <p style={{ margin: 0, fontFamily: FONT_MONO, fontSize: 11, color: C.cyan }}>{selectedParcel.id}</p>
+                          <h3 style={{ margin: "4px 0 0", fontFamily: FONT_DISPLAY, fontSize: 20, fontWeight: 700, color: C.ink000 }}>Survey No: {selectedParcel.surveyNo}</h3>
+                          <p style={{ margin: 0, fontSize: 12, color: C.ink500 }}>{selectedParcel.village}, {selectedParcel.district}</p>
+                        </div>
+                        <Badge tone={STATUS_META[selectedParcel.status].tone}>{STATUS_META[selectedParcel.status].label}</Badge>
+                      </div>
+
+                      <div style={{ display: "flex", alignItems: "center", gap: 16, padding: "14px 0", borderTop: `1px solid ${C.line1}`, borderBottom: `1px solid ${C.line1}` }}>
+                        <DnaRing score={selectedParcel.dna.overall} size={72} stroke={6} />
+                        <div>
+                          <p style={{ margin: 0, fontSize: 12, color: C.ink500 }}>Land DNA Score</p>
+                          <p style={{ margin: 0, fontSize: 18, fontWeight: 700, color: C.ink000 }}>{selectedParcel.dna.overall}% Confidence</p>
+                        </div>
+                      </div>
+
+                      <div style={{ marginTop: 16, display: "flex", flexDirection: "column", gap: 10 }}>
+                        <div style={{ display: "flex", justifyContent: "space-between", fontSize: 13 }}>
+                          <span style={{ color: C.ink500 }}>Boundary Overlap:</span>
+                          <span style={{ fontWeight: 600, color: C.emerald }}>96.4%</span>
+                        </div>
+                        <div style={{ display: "flex", justifyContent: "space-between", fontSize: 13 }}>
+                          <span style={{ color: C.ink500 }}>Area Similarity:</span>
+                          <span style={{ fontWeight: 600, color: C.emerald }}>98.2%</span>
+                        </div>
+                        <div style={{ display: "flex", justifyContent: "space-between", fontSize: 13 }}>
+                          <span style={{ color: C.ink500 }}>Centroid Deviation:</span>
+                          <span style={{ fontWeight: 600, color: C.ink100 }}>1.8 m</span>
+                        </div>
+                        <div style={{ display: "flex", justifyContent: "space-between", fontSize: 13 }}>
+                          <span style={{ color: C.ink500 }}>Cadastral Area:</span>
+                          <span style={{ fontWeight: 600, fontFamily: FONT_MONO, color: C.ink100 }}>{selectedParcel.cadastralArea} m²</span>
+                        </div>
+                        <div style={{ display: "flex", justifyContent: "space-between", fontSize: 13 }}>
+                          <span style={{ color: C.ink500 }}>RoR Area:</span>
+                          <span style={{ fontWeight: 600, fontFamily: FONT_MONO, color: C.ink100 }}>{selectedParcel.rorArea} m²</span>
+                        </div>
+                      </div>
+
+                      {selectedParcel.conflicts.length > 0 && (
+                        <div style={{ marginTop: 16, padding: 12, borderRadius: 14, background: "#d98e4a15", border: "1px solid #d98e4a40" }}>
+                          <p style={{ margin: 0, fontSize: 12, fontWeight: 600, color: "#efc08a" }}>Detected Conflict</p>
+                          <p style={{ margin: "4px 0 0", fontSize: 11, color: C.ink300 }}>{selectedParcel.conflicts[0].detail}</p>
+                        </div>
+                      )}
+                    </Card>
+
+                    <Card style={{ padding: 20 }}>
+                      <p style={{ margin: "0 0 12px", fontFamily: FONT_MONO, fontSize: 11, color: C.ink500, textTransform: "uppercase" }}>Connected Repositories</p>
+                      <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                        {DATASETS.slice(0, 4).map((ds) => (
+                          <div key={ds.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "8px 12px", borderRadius: 10, background: "#ffffff05" }}>
+                            <span style={{ fontSize: 12, color: C.ink100 }}>{ds.name}</span>
+                            <span style={{ fontSize: 11, fontFamily: FONT_MONO, color: C.cyan }}>{ds.quality}% Quality</span>
+                          </div>
+                        ))}
+                      </div>
+                    </Card>
+                  </div>
+                </>
+              )}
+
+              {/* TAB 2: GIS MAP */}
+              {activeTab === "map" && (
+                <div style={{ display: "grid", gridTemplateColumns: "3fr 1.2fr", gap: 24 }}>
+                  <Card style={{ padding: 24 }}>
+                    <MapTabContent 
+                      parcels={filteredParcels} 
+                      selectedParcel={selectedParcel} 
+                      onSelectParcel={(p) => setSelectedParcel(p)} 
+                    />
+                  </Card>
+
+                  <Card style={{ padding: 24 }}>
+                    <Badge tone="cyan">Selected Cadastral Parcel</Badge>
+                    <h3 style={{ margin: "14px 0 4px", fontFamily: FONT_DISPLAY, fontSize: 22, fontWeight: 700 }}>S.No {selectedParcel.surveyNo}</h3>
+                    <p style={{ margin: 0, fontSize: 12, color: C.ink500 }}>{selectedParcel.village}, {selectedParcel.district}</p>
+
+                    <div style={{ display: "flex", alignItems: "center", gap: 14, margin: "20px 0", padding: "12px 0", borderTop: `1px solid ${C.line1}`, borderBottom: `1px solid ${C.line1}` }}>
+                      <DnaRing score={selectedParcel.dna.overall} size={64} />
+                      <div>
+                        <p style={{ margin: 0, fontSize: 12, color: C.ink500 }}>IoU Confidence</p>
+                        <p style={{ margin: 0, fontSize: 16, fontWeight: 700 }}>{selectedParcel.dna.overall}% Harmonized</p>
+                      </div>
+                    </div>
+
+                    <div style={{ display: "flex", flexDirection: "column", gap: 10, fontSize: 13 }}>
+                      <div style={{ display: "flex", justifyContent: "space-between" }}>
+                        <span style={{ color: C.ink500 }}>Patta Owner</span>
+                        <span style={{ fontWeight: 600 }}>{selectedParcel.ownerType}</span>
+                      </div>
+                      <div style={{ display: "flex", justifyContent: "space-between" }}>
+                        <span style={{ color: C.ink500 }}>Cadastral Area</span>
+                        <span style={{ fontFamily: FONT_MONO }}>{selectedParcel.cadastralArea} m²</span>
+                      </div>
+                      <div style={{ display: "flex", justifyContent: "space-between" }}>
+                        <span style={{ color: C.ink500 }}>RoR Area</span>
+                        <span style={{ fontFamily: FONT_MONO }}>{selectedParcel.rorArea} m²</span>
+                      </div>
+                      <div style={{ display: "flex", justifyContent: "space-between" }}>
+                        <span style={{ color: C.ink500 }}>GPS Latitude</span>
+                        <span style={{ fontFamily: FONT_MONO, color: C.cyan }}>{selectedParcel.lat.toFixed(5)}</span>
+                      </div>
+                      <div style={{ display: "flex", justifyContent: "space-between" }}>
+                        <span style={{ color: C.ink500 }}>GPS Longitude</span>
+                        <span style={{ fontFamily: FONT_MONO, color: C.cyan }}>{selectedParcel.lng.toFixed(5)}</span>
+                      </div>
+                    </div>
+                  </Card>
+                </div>
+              )}
+
+              {/* TAB 3: DATA HUB */}
+              {activeTab === "datahub" && (
+                <div style={{ gridColumn: "1 / -1", display: "flex", flexDirection: "column", gap: 20 }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                    <div>
+                      <h3 style={{ margin: 0, fontFamily: FONT_DISPLAY, fontSize: 24, fontWeight: 700 }}>Connected Government Repositories</h3>
+                      <p style={{ margin: "4px 0 0", fontSize: 13, color: C.ink500 }}>Live sync schemas across 6 provincial and municipal land datasets</p>
+                    </div>
+                    <button style={{ background: C.cyan, color: C.ground950, border: "none", borderRadius: 999, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
+                      + Connect New WFS/WMS Layer
+                    </button>
+                  </div>
+
+                  <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20 }}>
+                    {DATASETS.map((ds) => (
+                      <Card key={ds.id} style={{ padding: 22 }}>
+                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12 }}>
+                          <span style={{ fontSize: 10, fontFamily: FONT_MONO, padding: "4px 8px", borderRadius: 6, background: "#ffffff0a", color: C.cyan }}>{ds.type}</span>
+                          <span style={{ fontSize: 10, fontWeight: 700, color: C.emerald }}>{ds.status}</span>
+                        </div>
+                        <h4 style={{ margin: 0, fontSize: 17, fontWeight: 700, color: C.ink000 }}>{ds.name}</h4>
+                        <p style={{ margin: "4px 0 14px", fontSize: 12, color: C.ink500 }}>{ds.dept}</p>
+                        
+                        <div style={{ display: "flex", justifyContent: "space-between", padding: "10px 0", borderTop: `1px solid ${C.line1}`, fontSize: 12 }}>
+                          <span style={{ color: C.ink500 }}>Records Ingested</span>
+                          <span style={{ fontFamily: FONT_MONO, fontWeight: 600 }}>{ds.records.toLocaleString()}</span>
+                        </div>
+                        <div style={{ display: "flex", justifyContent: "space-between", padding: "10px 0", borderTop: `1px solid ${C.line1}`, fontSize: 12 }}>
+                          <span style={{ color: C.ink500 }}>Schema Ingested</span>
+                          <span style={{ fontFamily: FONT_MONO, fontSize: 10, color: C.ink300 }}>{ds.schema}</span>
+                        </div>
+                      </Card>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* TAB 4: CONFLICT RADAR */}
+              {activeTab === "conflicts" && (
+                <div style={{ gridColumn: "1 / -1", display: "flex", flexDirection: "column", gap: 20 }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                    <div>
+                      <h3 style={{ margin: 0, fontFamily: FONT_DISPLAY, fontSize: 24, fontWeight: 700 }}>Active Discrepancy & Conflict Radar</h3>
+                      <p style={{ margin: "4px 0 0", fontSize: 13, color: C.ink500 }}>Autonomous AI anomaly detection across cross-department boundary drifts</p>
+                    </div>
+                  </div>
+
+                  <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 20 }}>
+                    {PARCELS.filter(p => p.conflicts.length > 0).slice(0, 8).map((p) => (
+                      <Card key={p.id} style={{ padding: 22, borderLeft: `4px solid ${p.status === 'critical' ? C.critical : C.amber}` }}>
+                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 8 }}>
+                          <div>
+                            <span style={{ fontSize: 11, fontFamily: FONT_MONO, color: C.cyan }}>{p.id}</span>
+                            <h4 style={{ margin: "2px 0 0", fontSize: 18, fontWeight: 700 }}>Survey No: {p.surveyNo} ({p.village})</h4>
+                          </div>
+                          <Badge tone={p.status === "critical" ? "critical" : "amber"}>{p.conflicts[0].type}</Badge>
+                        </div>
+                        <p style={{ margin: "8px 0 14px", fontSize: 13, color: C.ink300, lineHeight: 1.4 }}>{p.conflicts[0].detail}</p>
+                        
+                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", paddingTop: 12, borderTop: `1px solid ${C.line1}`, fontSize: 12 }}>
+                          <span style={{ color: C.ink500 }}>Discrepancy Severity: <b style={{ color: p.conflicts[0].severity === 'critical' ? C.critical : C.amber }}>{p.conflicts[0].severity.toUpperCase()}</b></span>
+                          <button onClick={() => { setSelectedParcel(p); setActiveTab("map"); }} style={{ background: "transparent", border: `1px solid ${C.line2}`, color: C.ink100, borderRadius: 999, padding: "4px 12px", fontSize: 11, cursor: "pointer" }}>
+                            Inspect on GIS Map →
+                          </button>
+                        </div>
+                      </Card>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* TAB 5: PARCEL INTELLIGENCE */}
+              {activeTab === "parcels" && (
+                <div style={{ gridColumn: "1 / -1", display: "flex", flexDirection: "column", gap: 20 }}>
+                  <h3 style={{ margin: 0, fontFamily: FONT_DISPLAY, fontSize: 24, fontWeight: 700 }}>Cadastral Parcel Master Database</h3>
+                  <div style={{ overflowX: "auto", background: C.glass, borderRadius: 20, border: `1px solid ${C.glassBorder}` }}>
+                    <table style={{ width: "100%", borderCollapse: "collapse", textAlign: "left", fontSize: 13 }}>
+                      <thead>
+                        <tr style={{ borderBottom: `1px solid ${C.line2}`, background: "#ffffff05" }}>
+                          <th style={{ padding: "14px 16px", color: C.ink500, fontFamily: FONT_MONO, fontSize: 11 }}>PARCEL ID</th>
+                          <th style={{ padding: "14px 16px", color: C.ink500, fontFamily: FONT_MONO, fontSize: 11 }}>SURVEY NO</th>
+                          <th style={{ padding: "14px 16px", color: C.ink500, fontFamily: FONT_MONO, fontSize: 11 }}>VILLAGE</th>
+                          <th style={{ padding: "14px 16px", color: C.ink500, fontFamily: FONT_MONO, fontSize: 11 }}>CADASTRAL AREA</th>
+                          <th style={{ padding: "14px 16px", color: C.ink500, fontFamily: FONT_MONO, fontSize: 11 }}>ROR AREA</th>
+                          <th style={{ padding: "14px 16px", color: C.ink500, fontFamily: FONT_MONO, fontSize: 11 }}>DNA SCORE</th>
+                          <th style={{ padding: "14px 16px", color: C.ink500, fontFamily: FONT_MONO, fontSize: 11 }}>STATUS</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {filteredParcels.map((p) => (
+                          <tr key={p.id} onClick={() => { setSelectedParcel(p); setActiveTab("overview"); }} style={{ borderBottom: `1px solid ${C.line1}`, cursor: "pointer", transition: "background .2s" }}>
+                            <td style={{ padding: "14px 16px", fontFamily: FONT_MONO, color: C.cyan }}>{p.id}</td>
+                            <td style={{ padding: "14px 16px", fontWeight: 600 }}>{p.surveyNo}</td>
+                            <td style={{ padding: "14px 16px", color: C.ink300 }}>{p.village}</td>
+                            <td style={{ padding: "14px 16px", fontFamily: FONT_MONO }}>{p.cadastralArea} m²</td>
+                            <td style={{ padding: "14px 16px", fontFamily: FONT_MONO }}>{p.rorArea} m²</td>
+                            <td style={{ padding: "14px 16px", fontWeight: 700, color: toneHex[toneForScore(p.dna.overall)] }}>{p.dna.overall}%</td>
+                            <td style={{ padding: "14px 16px" }}>
+                              <Badge tone={STATUS_META[p.status].tone}>{STATUS_META[p.status].label}</Badge>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              )}
+
+            </main>
+          </div>
+
+          <AuthModal 
+            isOpen={authModal.open} 
+            defaultTab={authModal.defaultTab} 
+            onClose={() => setAuthModal({ open: false, defaultTab: "user" })}
+            onLoginSuccess={(userData) => setCurrentUser(userData)}
+          />
+
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>
